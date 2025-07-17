@@ -1,0 +1,766 @@
+// this would be used as a profile update 
+
+
+// import React, { useState } from 'react';
+// import { User, Mail, Phone, MapPin, Calendar, Edit, Save, X, Camera, Shield, Award, Heart } from 'lucide-react';
+// import Card from '../components/Card';
+// import { useAuth } from '../contexts/Auth.jsx';
+
+// // interface UserProfile {
+// //   id: string;
+// //   name: string;
+// //   email: string;
+// //   phone?: string;
+// //   address?: string;
+// //   joinDate: string;
+// //   role: 'member' | 'worker' | 'admin';
+// //   department?: string;
+// //   bio?: string;
+// //   avatar?: string;
+// //   birthDate?: string;
+// //   emergencyContact?: {
+// //     name: string;
+// //     phone: string;
+// //     relationship: string;
+// //   };
+// //   preferences: {
+// //     notifications: boolean;
+// //     emailUpdates: boolean;
+// //     prayerRequests: boolean;
+// //   };
+// //   stats: {
+// //     prayersSubmitted: number;
+// //     eventsAttended: number;
+// //     votesParticipated: number;
+// //     yearsOfService: number;
+// //   };
+// // }
+
+// const Profile = () => {
+//   const { user } = useAuth();
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [activeTab, setActiveTab] = useState('profile');
+
+//   const [profile, setProfile] = useState({
+//     id: user?.id || '1',
+//     name: user?.name || 'John Doe',
+//     email: user?.email || 'john.doe@chapel.org',
+//     phone: '(555) 123-4567',
+//     address: '123 Chapel Street, Faith City, FC 12345',
+//     joinDate: '2020-03-15',
+//     role: user?.role || 'worker',
+//     department: 'Music Ministry',
+//     bio: 'Passionate about serving God and our community through music and worship. I believe in the power of music to bring people together and create meaningful connections.',
+//     birthDate: '1985-06-15',
+//     emergencyContact: {
+//       name: 'Jane Doe',
+//       phone: '(555) 987-6543',
+//       relationship: 'Spouse'
+//     },
+//     preferences: {
+//       notifications: true,
+//       emailUpdates: true,
+//       prayerRequests: true
+//     },
+//     stats: {
+//       prayersSubmitted: 23,
+//       eventsAttended: 156,
+//       votesParticipated: 89,
+//       yearsOfService: 4
+//     }
+//   });
+
+//   const [editedProfile, setEditedProfile] = useState(profile);
+
+//   const handleSave = () => {
+//     setProfile(editedProfile);
+//     setIsEditing(false);
+//   };
+
+//   const handleCancel = () => {
+//     setEditedProfile(profile);
+//     setIsEditing(false);
+//   };
+
+//   const formatDate = (dateString) => {
+//     return new Date(dateString).toLocaleDateString('en-US', {
+//       year: 'numeric',
+//       month: 'long',
+//       day: 'numeric'
+//     });
+//   };
+
+//   const getRoleColor = (role) => {
+//     switch (role) {
+//       case 'admin': return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300';
+//       case 'worker': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300';
+//       default: return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300';
+//     }
+//   };
+
+//   const tabs = [
+//     { id: 'profile', label: 'Profile', icon: User },
+//     { id: 'preferences', label: 'Preferences', icon: Shield },
+//     { id: 'stats', label: 'Statistics', icon: Award }
+//   ];
+
+//   return (
+//     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+//       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
+//         <div>
+//           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">My Profile</h1>
+//           <p className="text-gray-600 dark:text-gray-400">
+//             Manage your personal information and preferences
+//           </p>
+//         </div>
+//         <button
+//           onClick={() => isEditing ? handleSave() : setIsEditing(true)}
+//           className="mt-4 sm:mt-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center space-x-2 shadow-lg hover:shadow-xl"
+//         >
+//           {isEditing ? <Save className="h-4 w-4" /> : <Edit className="h-4 w-4" />}
+//           <span>{isEditing ? 'Save Changes' : 'Edit Profile'}</span>
+//         </button>
+//       </div>
+
+//       {/* Profile Header */}
+//       <Card className="mb-8">
+//         <div className="p-6">
+//           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
+//             <div className="relative">
+//               <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-2xl">
+//                 {profile.name.charAt(0)}
+//               </div>
+//               {isEditing && (
+//                 <button className="absolute bottom-0 right-0 p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors duration-200">
+//                   <Camera className="h-4 w-4" />
+//                 </button>
+//               )}
+//             </div>
+//             <div className="flex-1 text-center sm:text-left">
+//               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+//                 {profile.name}
+//               </h2>
+//               <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3 mb-3">
+//                 <span className={`px-3 py-1 rounded-full text-sm font-medium ${getRoleColor(profile.role)}`}>
+//                   {profile.role.charAt(0).toUpperCase() + profile.role.slice(1)}
+//                 </span>
+//                 {profile.department && (
+//                   <span className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300 rounded-full text-sm">
+//                     {profile.department}
+//                   </span>
+//                 )}
+//               </div>
+//               <p className="text-gray-600 dark:text-gray-400">
+//                 Member since {formatDate(profile.joinDate)}
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </Card>
+
+//       {/* Tabs */}
+//       <div className="mb-6">
+//         <div className="border-b border-gray-200 dark:border-gray-700">
+//           <nav className="-mb-px flex space-x-8">
+//             {tabs.map(tab => (
+//               <button
+//                 key={tab.id}
+//                 onClick={() => setActiveTab(tab.id)}
+//                 className={`py-2 px-1 border-b-2 font-medium text-sm flex items-center space-x-2 transition-colors duration-200 ${
+//                   activeTab === tab.id
+//                     ? 'border-blue-500 text-blue-600 dark:text-blue-400'
+//                     : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
+//                 }`}
+//               >
+//                 <tab.icon className="h-4 w-4" />
+//                 <span>{tab.label}</span>
+//               </button>
+//             ))}
+//           </nav>
+//         </div>
+//       </div>
+
+//       {/* Tab Content */}
+//       {activeTab === 'profile' && (
+//         <div className="space-y-6">
+//           {/* Personal Information */}
+//           <Card>
+//             <div className="p-6">
+//               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+//                 Personal Information
+//               </h3>
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     First Name
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="text"
+//                       value={editedProfile.name}
+//                       onChange={(e) => setEditedProfile(prev => ({ ...prev, name: e.target.value }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <div className="flex items-center space-x-2 text-gray-900 dark:text-white">
+//                       <User className="h-4 w-4 text-gray-400" />
+//                       <span>{profile.name}</span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Last Name
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="text"
+//                       value={editedProfile.name}
+//                       onChange={(e) => setEditedProfile(prev => ({ ...prev, name: e.target.value }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <div className="flex items-center space-x-2 text-gray-900 dark:text-white">
+//                       <User className="h-4 w-4 text-gray-400" />
+//                       <span>{profile.name}</span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Email Address
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="email"
+//                       value={editedProfile.email}
+//                       onChange={(e) => setEditedProfile(prev => ({ ...prev, email: e.target.value }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <div className="flex items-center space-x-2 text-gray-900 dark:text-white">
+//                       <Mail className="h-4 w-4 text-gray-400" />
+//                       <span>{profile.email}</span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Phone Number
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="tel"
+//                       value={editedProfile.phone || ''}
+//                       onChange={(e) => setEditedProfile(prev => ({ ...prev, phone: e.target.value }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <div className="flex items-center space-x-2 text-gray-900 dark:text-white">
+//                       <Phone className="h-4 w-4 text-gray-400" />
+//                       <span>{profile.phone || 'Not provided'}</span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Birth Date
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="date"
+//                       value={editedProfile.birthDate || ''}
+//                       onChange={(e) => setEditedProfile(prev => ({ ...prev, birthDate: e.target.value }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <div className="flex items-center space-x-2 text-gray-900 dark:text-white">
+//                       <Calendar className="h-4 w-4 text-gray-400" />
+//                       <span>{profile.birthDate ? formatDate(profile.birthDate) : 'Not provided'}</span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div className="md:col-span-2">
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Address
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="text"
+//                       value={editedProfile.address || ''}
+//                       onChange={(e) => setEditedProfile(prev => ({ ...prev, address: e.target.value }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <div className="flex items-center space-x-2 text-gray-900 dark:text-white">
+//                       <MapPin className="h-4 w-4 text-gray-400" />
+//                       <span>{profile.address || 'Not provided'}</span>
+//                     </div>
+//                   )}
+//                 </div>
+
+//                 <div className="md:col-span-2">
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Bio
+//                   </label>
+//                   {isEditing ? (
+//                     <textarea
+//                       rows={3}
+//                       value={editedProfile.bio || ''}
+//                       onChange={(e) => setEditedProfile(prev => ({ ...prev, bio: e.target.value }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+//                       placeholder="Tell us about yourself..."
+//                     />
+//                   ) : (
+//                     <p className="text-gray-900 dark:text-white">
+//                       {profile.bio || 'No bio provided'}
+//                     </p>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           </Card>
+
+//           {/* Emergency Contact */}
+//           <Card>
+//             <div className="p-6">
+//               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+//                 Emergency Contact
+//               </h3>
+//               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Name
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="text"
+//                       value={editedProfile.emergencyContact?.name || ''}
+//                       onChange={(e) => setEditedProfile(prev => ({
+//                         ...prev,
+//                         emergencyContact: { ...(prev.emergencyContact || {}), name: e.target.value }
+//                       }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <p className="text-gray-900 dark:text-white">
+//                       {profile.emergencyContact?.name || 'Not provided'}
+//                     </p>
+//                   )}
+//                 </div>
+
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Phone
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="tel"
+//                       value={editedProfile.emergencyContact?.phone || ''}
+//                       onChange={(e) => setEditedProfile(prev => ({
+//                         ...prev,
+//                         emergencyContact: { ...(prev.emergencyContact || {}), phone: e.target.value }
+//                       }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <p className="text-gray-900 dark:text-white">
+//                       {profile.emergencyContact?.phone || 'Not provided'}
+//                     </p>
+//                   )}
+//                 </div>
+
+//                 <div>
+//                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+//                     Relationship
+//                   </label>
+//                   {isEditing ? (
+//                     <input
+//                       type="text"
+//                       value={editedProfile.emergencyContact?.relationship || ''}
+//                       onChange={(e) => setEditedProfile(prev => ({
+//                         ...prev,
+//                         emergencyContact: { ...(prev.emergencyContact || {}), relationship: e.target.value }
+//                       }))}
+//                       className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                     />
+//                   ) : (
+//                     <p className="text-gray-900 dark:text-white">
+//                       {profile.emergencyContact?.relationship || 'Not provided'}
+//                     </p>
+//                   )}
+//                 </div>
+//               </div>
+//             </div>
+//           </Card>
+
+//           {isEditing && (
+//             <div className="flex justify-end space-x-3">
+//               <button
+//                 onClick={handleCancel}
+//                 className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center space-x-2"
+//               >
+//                 <X className="h-4 w-4" />
+//                 <span>Cancel</span>
+//               </button>
+//               <button
+//                 onClick={handleSave}
+//                 className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center space-x-2"
+//               >
+//                 <Save className="h-4 w-4" />
+//                 <span>Save Changes</span>
+//               </button>
+//             </div>
+//           )}
+//         </div>
+//       )}
+
+//       {activeTab === 'preferences' && (
+//         <Card>
+//           <div className="p-6">
+//             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+//               Notification Preferences
+//             </h3>
+//             <div className="space-y-4">
+//               <div className="flex items-center justify-between">
+//                 <div>
+//                   <h4 className="font-medium text-gray-900 dark:text-white">Push Notifications</h4>
+//                   <p className="text-sm text-gray-600 dark:text-gray-400">
+//                     Receive notifications about chapel activities and updates
+//                   </p>
+//                 </div>
+//                 <label className="relative inline-flex items-center cursor-pointer">
+//                   <input
+//                     type="checkbox"
+//                     checked={profile.preferences.notifications}
+//                     onChange={(e) => setProfile(prev => ({
+//                       ...prev,
+//                       preferences: { ...prev.preferences, notifications: e.target.checked }
+//                     }))}
+//                     className="sr-only peer"
+//                   />
+//                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+//                 </label>
+//               </div>
+
+//               <div className="flex items-center justify-between">
+//                 <div>
+//                   <h4 className="font-medium text-gray-900 dark:text-white">Email Updates</h4>
+//                   <p className="text-sm text-gray-600 dark:text-gray-400">
+//                     Receive weekly email updates about chapel events and announcements
+//                   </p>
+//                 </div>
+//                 <label className="relative inline-flex items-center cursor-pointer">
+//                   <input
+//                     type="checkbox"
+//                     checked={profile.preferences.emailUpdates}
+//                     onChange={(e) => setProfile(prev => ({
+//                       ...prev,
+//                       preferences: { ...prev.preferences, emailUpdates: e.target.checked }
+//                     }))}
+//                     className="sr-only peer"
+//                   />
+//                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+//                 </label>
+//               </div>
+
+//               <div className="flex items-center justify-between">
+//                 <div>
+//                   <h4 className="font-medium text-gray-900 dark:text-white">Prayer Request Notifications</h4>
+//                   <p className="text-sm text-gray-600 dark:text-gray-400">
+//                     Get notified when new prayer requests are submitted
+//                   </p>
+//                 </div>
+//                 <label className="relative inline-flex items-center cursor-pointer">
+//                   <input
+//                     type="checkbox"
+//                     checked={profile.preferences.prayerRequests}
+//                     onChange={(e) => setProfile(prev => ({
+//                       ...prev,
+//                       preferences: { ...prev.preferences, prayerRequests: e.target.checked }
+//                     }))}
+//                     className="sr-only peer"
+//                   />
+//                   <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+//                 </label>
+//               </div>
+//             </div>
+//           </div>
+//         </Card>
+//       )}
+
+//       {activeTab === 'stats' && (
+//         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//           <Card className="p-6">
+//             <div className="flex items-center">
+//               <div className="p-3 rounded-lg bg-blue-500 text-white mr-4">
+//                 <Heart className="h-6 w-6" />
+//               </div>
+//               <div>
+//                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
+//                   {profile.stats.prayersSubmitted}
+//                 </p>
+//                 <p className="text-sm text-gray-600 dark:text-gray-400">Prayers Submitted</p>
+//               </div>
+//             </div>
+//           </Card>
+
+//           <Card className="p-6">
+//             <div className="flex items-center">
+//               <div className="p-3 rounded-lg bg-green-500 text-white mr-4">
+//                 <Calendar className="h-6 w-6" />
+//               </div>
+//               <div>
+//                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
+//                   {profile.stats.eventsAttended}
+//                 </p>
+//                 <p className="text-sm text-gray-600 dark:text-gray-400">Events Attended</p>
+//               </div>
+//             </div>
+//           </Card>
+
+//           <Card className="p-6">
+//             <div className="flex items-center">
+//               <div className="p-3 rounded-lg bg-purple-500 text-white mr-4">
+//                 <Award className="h-6 w-6" />
+//               </div>
+//               <div>
+//                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
+//                   {profile.stats.votesParticipated}
+//                 </p>
+//                 <p className="text-sm text-gray-600 dark:text-gray-400">Votes Participated</p>
+//               </div>
+//             </div>
+//           </Card>
+
+//           <Card className="p-6">
+//             <div className="flex items-center">
+//               <div className="p-3 rounded-lg bg-yellow-500 text-white mr-4">
+//                 <Shield className="h-6 w-6" />
+//               </div>
+//               <div>
+//                 <p className="text-2xl font-bold text-gray-900 dark:text-white">
+//                   {profile.stats.yearsOfService}
+//                 </p>
+//                 <p className="text-sm text-gray-600 dark:text-gray-400">Years of Service</p>
+//               </div>
+//             </div>
+//           </Card>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default Profile;
+
+
+
+// ---------------------------------------- need later ---------------------------------
+//   id: 'music',
+//       name: 'Music Ministry',
+//       description: 'Leading worship through music, choir, and instrumental performances',
+//       color: 'bg-blue-500',
+//       icon: '🎵',
+//       lead: {
+//         id: 'mary-johnson',
+//         name: 'Sister Mary Johnson',
+//         role: 'Music Director',
+//         email: 'mary.johnson@chapel.org',
+//         phone: '(555) 123-4567',
+//         joinDate: '2020-03-15',
+//         avatar: 'MJ',
+//         isLead: true
+//       },
+//       members: [
+//         {
+//           id: 'emily-chen',
+//           name: 'Emily Chen',
+//           role: 'Pianist',
+//           email: 'emily.chen@chapel.org',
+//           joinDate: '2021-06-10',
+//           avatar: 'EC',
+//           isLead: false
+//         },
+//         {
+//           id: 'david-kim',
+//           name: 'David Kim',
+//           role: 'Choir Member',
+//           email: 'david.kim@chapel.org',
+//           joinDate: '2022-01-20',
+//           avatar: 'DK',
+//           isLead: false
+//         },
+//         {
+//           id: 'sarah-wilson',
+//           name: 'Sarah Wilson',
+//           role: 'Vocalist',
+//           email: 'sarah.wilson@chapel.org',
+//           joinDate: '2021-09-05',
+//           avatar: 'SW',
+//           isLead: false
+//         }
+//       ]
+//     },
+//     {
+//       id: 'youth',
+//       name: 'Youth Ministry',
+//       description: 'Engaging and mentoring young people in their faith journey',
+//       color: 'bg-green-500',
+//       icon: '👥',
+//       lead: {
+//         id: 'sarah-williams',
+//         name: 'Sarah Williams',
+//         role: 'Youth Director',
+//         email: 'sarah.williams@chapel.org',
+//         phone: '(555) 234-5678',
+//         joinDate: '2019-08-12',
+//         avatar: 'SW',
+//         isLead: true
+//       },
+//       members: [
+//         {
+//           id: 'mike-torres',
+//           name: 'Mike Torres',
+//           role: 'Youth Leader',
+//           email: 'mike.torres@chapel.org',
+//           joinDate: '2021-03-18',
+//           avatar: 'MT',
+//           isLead: false
+//         },
+//         {
+//           id: 'jessica-brown',
+//           name: 'Jessica Brown',
+//           role: 'Youth Counselor',
+//           email: 'jessica.brown@chapel.org',
+//           joinDate: '2022-05-22',
+//           avatar: 'JB',
+//           isLead: false
+//         }
+//       ]
+//     },
+//     {
+//       id: 'outreach',
+//       name: 'Outreach Ministry',
+//       description: 'Serving the community through various outreach programs and events',
+//       color: 'bg-purple-500',
+//       icon: '🤝',
+//       lead: {
+//         id: 'michael-brown',
+//         name: 'Deacon Michael Brown',
+//         role: 'Outreach Director',
+//         email: 'michael.brown@chapel.org',
+//         phone: '(555) 345-6789',
+//         joinDate: '2018-11-08',
+//         avatar: 'MB',
+//         isLead: true
+//       },
+//       members: [
+//         {
+//           id: 'lisa-garcia',
+//           name: 'Lisa Garcia',
+//           role: 'Community Coordinator',
+//           email: 'lisa.garcia@chapel.org',
+//           joinDate: '2020-07-14',
+//           avatar: 'LG',
+//           isLead: false
+//         },
+//         {
+//           id: 'robert-martinez',
+//           name: 'Robert Martinez',
+//           role: 'Volunteer Coordinator',
+//           email: 'robert.martinez@chapel.org',
+//           joinDate: '2021-02-28',
+//           avatar: 'RM',
+//           isLead: false
+//         },
+//         {
+//           id: 'anna-lee',
+//           name: 'Anna Lee',
+//           role: 'Food Bank Manager',
+//           email: 'anna.lee@chapel.org',
+//           joinDate: '2020-12-03',
+//           avatar: 'AL',
+//           isLead: false
+//         }
+//       ]
+//     },
+//     {
+//       id: 'education',
+//       name: 'Education Ministry',
+//       description: 'Teaching and discipleship through Sunday school and Bible studies',
+//       color: 'bg-yellow-500',
+//       icon: '📚',
+//       lead: {
+//         id: 'lisa-rodriguez',
+//         name: 'Lisa Rodriguez',
+//         role: 'Education Director',
+//         email: 'lisa.rodriguez@chapel.org',
+//         phone: '(555) 456-7890',
+//         joinDate: '2019-04-22',
+//         avatar: 'LR',
+//         isLead: true
+//       },
+//       members: [
+//         {
+//           id: 'john-smith',
+//           name: 'Deacon John Smith',
+//           role: 'Bible Study Leader',
+//           email: 'john.smith@chapel.org',
+//           joinDate: '2018-09-15',
+//           avatar: 'JS',
+//           isLead: false
+//         },
+//         {
+//           id: 'maria-gonzalez',
+//           name: 'Maria Gonzalez',
+//           role: 'Sunday School Teacher',
+//           email: 'maria.gonzalez@chapel.org',
+//           joinDate: '2021-01-10',
+//           avatar: 'MG',
+//           isLead: false
+//         }
+//       ]
+//     },
+//     {
+//       id: 'facilities',
+//       name: 'Facilities & Maintenance',
+//       description: 'Maintaining and improving our chapel facilities and grounds',
+//       color: 'bg-red-500',
+//       icon: '🔧',
+//       lead: {
+//         id: 'james-thompson',
+//         name: 'James Thompson',
+//         role: 'Facilities Manager',
+//         email: 'james.thompson@chapel.org',
+//         phone: '(555) 567-8901',
+//         joinDate: '2017-06-30',
+//         avatar: 'JT',
+//         isLead: true
+//       },
+//       members: [
+//         {
+//           id: 'carlos-rivera',
+//           name: 'Carlos Rivera',
+//           role: 'Maintenance Technician',
+//           email: 'carlos.rivera@chapel.org',
+//           joinDate: '2020-02-18',
+//           avatar: 'CR',
+//           isLead: false
+//         },
+//         {
+//           id: 'tom-anderson',
+//           name: 'Tom Anderson',
+//           role: 'Groundskeeper',
+//           email: 'tom.anderson@chapel.org',
+//           joinDate: '2019-10-12',
+//           avatar: 'TA',
+//           isLead: false
+//         }
+//       ]
+//     }
