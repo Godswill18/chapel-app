@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
 export const usePrayerStore = create(
   devtools((set, get) => ({
     prayerRequests: [],
@@ -13,7 +15,7 @@ export const usePrayerStore = create(
 
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/prayer/public-view', {
+        const res = await axios.get(`${API_URL}/prayer/public-view`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,7 +44,7 @@ export const usePrayerStore = create(
     sendPrayerRequest: async (formData) => {
       try {
         const token = localStorage.getItem('token');
-        const { data } = await axios.post('http://localhost:5000/api/prayer/submitPrayerRequest', formData, {
+        const { data } = await axios.post(`${API_URL}/prayer/submitPrayerRequest`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,7 +69,7 @@ export const usePrayerStore = create(
       try {
         const token = localStorage.getItem('token');
         const { data } = await axios.post(
-          `http://localhost:5000/api/prayer/${prayerId}/pray`,
+          `${API_URL}/prayer/${prayerId}/pray`,
           {},
           {
             headers: {

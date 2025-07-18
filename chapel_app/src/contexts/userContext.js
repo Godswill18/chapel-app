@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
 export const useUserStore = create((set) => ({
   profile: null,
   loading: false,
@@ -10,7 +12,7 @@ export const useUserStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/auth/me', {
+      const res = await fetch(`${API_URL}/auth/me`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -36,7 +38,7 @@ export const useUserStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/users/updateProfile', {
+      const res = await fetch(`${API_URL}/users/updateProfile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +69,7 @@ export const useUserStore = create((set) => ({
       const formData = new FormData();
       formData.append('image', file);
 
-      const res = await fetch('http://localhost:5000/api/users/uploadProfileImg', {
+      const res = await fetch(`${API_URL}/users/uploadProfileImg`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -100,7 +102,7 @@ export const useUserStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/users/changePassword', {
+      const res = await fetch(`${API_URL}/users/changePassword`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

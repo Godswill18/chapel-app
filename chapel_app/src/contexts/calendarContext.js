@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
 export const useCalendarStore = create(
   devtools((set, get) => ({
     events: [],
@@ -14,7 +16,7 @@ export const useCalendarStore = create(
 
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/calendar/chapel-events', {
+        const res = await axios.get(`${API_URL}/calendar/chapel-events`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,7 +44,7 @@ export const useCalendarStore = create(
 
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/calendar/events', {
+        const res = await axios.get(`${API_URL}/calendar/events`, {
           params: { startDate, endDate },
           headers: {
             Authorization: `Bearer ${token}`,

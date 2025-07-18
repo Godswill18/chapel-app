@@ -5,6 +5,8 @@ import { useUserStore } from '../contexts/userContext';
 import { toast, ToastContainer } from 'react-toastify';
 import ProfileSkeleton from '../skeletoon/ProfileSkeleton';
 
+const IMAGE_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
+
 const ProfilePage = () => {
   const { profile, loading, error, fetchUserProfile, updateUserProfile, uploadProfileImage, changePassword } = useUserStore();
   const [isEditing, setIsEditing] = useState(false);
@@ -170,7 +172,7 @@ const ProfilePage = () => {
               <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
                 {profile.profileImg ? (
                   <img 
-                    src={`http://localhost:5000/${profile.profileImg}`} 
+                    src={`${IMAGE_URL}/${profile.profileImg}`} 
                     alt="Profile" 
                     className="w-full h-full object-cover"
                   />

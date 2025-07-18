@@ -1,6 +1,8 @@
 import {create} from 'zustand';
 import { persist } from 'zustand/middleware';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
  export const useUserContext = create((set) => ({
     userContext: [],
     loading: false,
@@ -16,7 +18,7 @@ import { persist } from 'zustand/middleware';
                 //  console.log("Payload being sent:", payload); // Add this line to inspect the payload
 
 
-            const res = await fetch("http://localhost:5000/api/auth/register", {
+            const res = await fetch(`${API_URL}/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,7 +70,7 @@ import { persist } from 'zustand/middleware';
 
     loginUser: async (payload) => {
   try {
-    const res = await fetch('http://localhost:5000/api/auth/login', {
+    const res = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -93,7 +95,7 @@ import { persist } from 'zustand/middleware';
  queryKey: ["authUser"], // we use the querykey to give a unique name to our query and refer to it later
 getUser: async () => {
   try{
-    const res = await fetch('http://localhost:5000/api/auth/me', {
+    const res = await fetch(`${API_URL}/auth/me`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -118,7 +120,7 @@ getUser: async () => {
    // Inside useUserContext
     logoutUser: async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/auth/logout', {
+        const res = await fetch(`${API_URL}/auth/logout`, {
           method: 'POST',
           credentials: 'include',
         });

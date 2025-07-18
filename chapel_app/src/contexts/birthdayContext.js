@@ -1,6 +1,8 @@
 // In your store file (e.g., useUserStore.js)
 import { create } from 'zustand';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
 export const useUserStore = create((set) => ({
   users: [],
   birthdays: [],
@@ -11,7 +13,7 @@ export const useUserStore = create((set) => ({
 fetchBirthdays: async () => {
   set({ loading: true, error: null });
   try {
-    const res = await fetch('http://localhost:5000/api/users/getBirthdays', {
+    const res = await fetch(`${API_URL}/users/getBirthdays`, {
           method: 'GET',
         credentials: 'include',
     });

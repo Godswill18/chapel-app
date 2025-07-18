@@ -2,6 +2,8 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
 const setupWindowListeners = (store) => {
   const handleFocus = () => {
     if (store.getState().user) {
@@ -66,7 +68,7 @@ const useDepartmentStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:5000/api/departments/getDepartments',
+      const response = await fetch(`${API_URL}/departments/getDepartments`,
         {
           method: 'GET',
           headers: {
@@ -90,7 +92,7 @@ const useDepartmentStore = create((set, get) => ({
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `http://localhost:5000/api/departments/fetch-User-Departments/${userId}`,
+        `${API_URL}/departments/fetch-User-Departments/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -122,7 +124,7 @@ const useDepartmentStore = create((set, get) => ({
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `http://localhost:5000/api/departments/${departmentId}/join/${userId}`,
+        `${API_URL}/departments/${departmentId}/join/${userId}`,
         {},
         {
           headers: {
@@ -159,7 +161,7 @@ const useDepartmentStore = create((set, get) => ({
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
-        `http://localhost:5000/api/departments/${departmentId}/leave/${userId}`,
+        `${API_URL}/departments/${departmentId}/leave/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import axios from 'axios';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
 export const useAnnouncementStore = create(
   devtools((set) => ({
     announcements: [],
@@ -15,7 +17,7 @@ export const useAnnouncementStore = create(
 
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get('http://localhost:5000/api/announcements/getUserAnnouncements', {
+        const res = await axios.get(`${API_URL}/announcements/getUserAnnouncements`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

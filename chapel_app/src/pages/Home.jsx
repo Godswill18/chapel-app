@@ -13,6 +13,8 @@ import { useCalendarStore } from '../contexts/calendarContext';
 import HomeCalendar from '../components/HomeCalendar';
 // import { useAuth } from '../contexts/AuthContext.jsx';
 
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+
 const Home = () => {
   const { user, login: loginToAuthStore } = useAuthStore();
   const { getUser } = useUserContext();
@@ -69,7 +71,7 @@ const Home = () => {
     const loadStats = async () => {
       try {
         setLoading(true);
-        const res = await fetch('http://localhost:5000/api/dashboard/stats', {
+        const res = await fetch(`${API_URL}/dashboard/stats`, {
           credentials: 'include',
         });
         const data = await res.json();
