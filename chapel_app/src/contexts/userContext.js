@@ -12,7 +12,7 @@ export const useUserStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${API_URL}auth/me`, {
+      const res = await fetch(`${API_URL}api/auth/me`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -38,7 +38,7 @@ export const useUserStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${API_URL}users/updateProfile`, {
+      const res = await fetch(`${API_URL}api/users/updateProfile`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export const useUserStore = create((set) => ({
       const formData = new FormData();
       formData.append('image', file);
 
-      const res = await fetch(`${API_URL}users/uploadProfileImg`, {
+      const res = await fetch(`${API_URL}api/users/uploadProfileImg`, {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -102,7 +102,7 @@ export const useUserStore = create((set) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`${API_URL}users/changePassword`, {
+      const res = await fetch(`${API_URL}api/users/changePassword`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

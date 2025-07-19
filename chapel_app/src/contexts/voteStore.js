@@ -18,7 +18,7 @@ const useVoteStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}votes/current`, {
+      const response = await axios.get(`${API_URL}api/votes/current`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ const useVoteStore = create((set, get) => ({
     try {
       const token = localStorage.getItem('token');
       
-      const response = await axios.post(`${API_URL}votes/voteUser`, {
+      const response = await axios.post(`${API_URL}api/votes/voteUser`, {
         voteId,
         nomineeId
       }, {
@@ -154,7 +154,7 @@ fetchPublishedWinners: async () => {
   set({ loading: true, error: null });
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${API_URL}votes/winners`, {
+    const response = await axios.get(`${API_URL}api/votes/winners`, {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true,
       credentials: 'include'

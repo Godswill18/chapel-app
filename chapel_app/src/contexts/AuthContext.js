@@ -18,7 +18,7 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
                 //  console.log("Payload being sent:", payload); // Add this line to inspect the payload
 
 
-            const res = await fetch(`${API_URL}auth/register`, {
+            const res = await fetch(`${API_URL}api/auth/register`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
     loginUser: async (payload) => {
   try {
-    const res = await fetch(`${API_URL}auth/login`, {
+    const res = await fetch(`${API_URL}api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
@@ -95,7 +95,7 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
  queryKey: ["authUser"], // we use the querykey to give a unique name to our query and refer to it later
 getUser: async () => {
   try{
-    const res = await fetch(`${API_URL}auth/me`, {
+    const res = await fetch(`${API_URL}api/auth/me`, {
       method: "GET",
       credentials: "include",
       headers: {
@@ -120,7 +120,7 @@ getUser: async () => {
    // Inside useUserContext
     logoutUser: async () => {
       try {
-        const res = await fetch(`${API_URL}auth/logout`, {
+        const res = await fetch(`${API_URL}api/auth/logout`, {
           method: 'POST',
           credentials: 'include',
         });

@@ -17,7 +17,7 @@ export const useAnnouncementStore = create(
 
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`${API_URL}announcements/getUserAnnouncements`, {
+        const res = await axios.get(`${API_URL}api/announcements/getUserAnnouncements`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
