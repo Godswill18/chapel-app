@@ -4,7 +4,7 @@ import Card from '../components/Card';
 import CalendarCard from '../components/Calendar';
 import Carousel from '../components/Carousel';
 import { useAuthStore, useUserContext } from '../contexts/AuthContext';
-import HomeSkeleton from '../skeletoon/HomeSkeleton';
+import HomeSkeleton from '../skeleton/HomeSkeleton';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import { usePrayerStore } from '../contexts/prayerStore';

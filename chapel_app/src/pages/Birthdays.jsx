@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Gift, Calendar, Cake, Search, Filter, Heart, Users } from 'lucide-react';
 import Card from '../components/Card';
 import { useUserStore } from '../contexts/birthdayContext';
-import BirthdaySkeleton from '../skeletoon/birthdaySkeleton';
+import BirthdaySkeleton from '../skeleton/birthdaySkeleton';
 
 const Birthdays = () => {
   const [searchTerm, setSearchTerm] = useState('');

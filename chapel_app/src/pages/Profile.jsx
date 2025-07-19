@@ -3,7 +3,7 @@ import { User, Mail, Phone, MapPin, Calendar, Edit, Save, X, Camera, Lock } from
 import Card from '../components/Card';
 import { useUserStore } from '../contexts/userContext';
 import { toast, ToastContainer } from 'react-toastify';
-import ProfileSkeleton from '../skeletoon/ProfileSkeleton';
+import ProfileSkeleton from '../skeleton/ProfileSkeleton';
 
 const IMAGE_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
