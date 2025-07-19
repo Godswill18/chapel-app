@@ -28,15 +28,15 @@ const PublicRoute = ({ children }) => {
 };
 
 function App() {
-   const { user } = useAuthStore();
-  const initStore = useDepartmentStore(state => state.init);
+  //  const { user } = useAuthStore();
+  // const initStore = useDepartmentStore(state => state.init);
 
-  useEffect(() => {
-    const cleanup = initStore(user);
-    return () => {
-      cleanup(); // Cleanup listeners on unmount
-    };
-  }, [user, initStore]);
+  // useEffect(() => {
+  //   const cleanup = initStore(user);
+  //   return () => {
+  //     cleanup(); // Cleanup listeners on unmount
+  //   };
+  // }, [user, initStore]);
 
   return (
     <ThemeProvider>

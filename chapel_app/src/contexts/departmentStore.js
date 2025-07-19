@@ -4,29 +4,29 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
-const setupWindowListeners = (store) => {
-  const handleFocus = () => {
-    if (store.getState().user) {
-      store.getState().refreshAll();
-    }
-  };
+// const setupWindowListeners = (store) => {
+//   const handleFocus = () => {
+//     if (store.getState().user) {
+//       store.getState().refreshAll();
+//     }
+//   };
 
-  const handleVisibilityChange = () => {
-    if (document.visibilityState === 'visible' && store.getState().user) {
-      store.getState().refreshAll();
-    }
-  };
+//   const handleVisibilityChange = () => {
+//     if (document.visibilityState === 'visible' && store.getState().user) {
+//       store.getState().refreshAll();
+//     }
+//   };
 
-  // Add event listeners
-  window.addEventListener('focus', handleFocus);
-  document.addEventListener('visibilitychange', handleVisibilityChange);
+//   // Add event listeners
+//   window.addEventListener('focus', handleFocus);
+//   document.addEventListener('visibilitychange', handleVisibilityChange);
 
-  // Return cleanup function
-  return () => {
-    window.removeEventListener('focus', handleFocus);
-    document.removeEventListener('visibilitychange', handleVisibilityChange);
-  };
-};
+//   // Return cleanup function
+//   return () => {
+//     window.removeEventListener('focus', handleFocus);
+//     document.removeEventListener('visibilitychange', handleVisibilityChange);
+//   };
+// };
 
 const useDepartmentStore = create((set, get) => ({
   departments: [],
