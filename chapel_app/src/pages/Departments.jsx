@@ -3,7 +3,7 @@ import { Users, Crown, Mail, Phone, MapPin, Search, Filter, ChevronDown, Chevron
 import Card from '../components/Card';
 import useDepartmentStore  from '../contexts/departmentStore';
 import { useAuthStore } from '../contexts/AuthContext';
-import DepartmentSkeleton from '../skeletoon/DepartmentSkeleton';
+import DepartmentSkeleton from '../skeleton/DepartmentSkeleton';
 import { toast, ToastContainer } from 'react-toastify';
 
 // interface Member {

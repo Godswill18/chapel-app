@@ -3,7 +3,7 @@ import { Heart, Plus, Clock, User, X, Send } from 'lucide-react';
 import Card from '../components/Card';
 import { usePrayerStore } from '../contexts/prayerStore';
 import { toast, Bounce, ToastContainer } from 'react-toastify';
-import RequestSkeleton from '../skeletoon/RequestSkeleton';
+import RequestSkeleton from '../skeleton/RequestSkeleton';
 import { useAuthStore } from '../contexts/AuthContext';
 // import { useAuthContext } from '../contexts/Auth.jsx';
 

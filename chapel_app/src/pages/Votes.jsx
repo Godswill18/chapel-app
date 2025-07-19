@@ -3,7 +3,7 @@ import { Clock, Vote, Award } from 'lucide-react';
 import Card from '../components/Card';
 import useVoteStore from '../contexts/voteStore';
 import { toast, ToastContainer } from 'react-toastify';
-import VotesSkeleton from '../skeletoon/VotesSkeleton';
+import VotesSkeleton from '../skeleton/VotesSkeleton';
 import WinnerCard from '../components/WinnerCard';
 
 const Votes = () => {

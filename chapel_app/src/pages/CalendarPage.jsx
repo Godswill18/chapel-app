@@ -3,8 +3,8 @@ import { Calendar as CalendarIcon, Plus, Filter, Search, Clock, MapPin, Users, X
 import Card from '../components/Card';
 import Calendar from '../components/Calendar';
 import { useCalendarStore } from '../contexts/calendarContext';
-import { CalendarSkeleton } from '../skeletoon/CalendarSkeleton';
-import { UpcomingEventsSkeleton } from '../skeletoon/upcomingEventsSkeleton';
+import { CalendarSkeleton } from '../skeleton/CalendarSkeleton';
+import { UpcomingEventsSkeleton } from '../skeleton/upcomingEventsSkeleton';
 
 
 const CalendarPage = () => {
