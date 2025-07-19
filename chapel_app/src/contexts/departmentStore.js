@@ -68,7 +68,7 @@ const useDepartmentStore = create((set, get) => ({
     set({ loading: true, error: null });
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/departments/getDepartments`,
+      const response = await fetch(`${API_URL}departments/getDepartments`,
         {
           method: 'GET',
           headers: {
@@ -92,7 +92,7 @@ const useDepartmentStore = create((set, get) => ({
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get(
-        `${API_URL}/departments/fetch-User-Departments/${userId}`,
+        `${API_URL}departments/fetch-User-Departments/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -124,7 +124,7 @@ const useDepartmentStore = create((set, get) => ({
     try {
       const token = localStorage.getItem('token');
       await axios.post(
-        `${API_URL}/departments/${departmentId}/join/${userId}`,
+        `${API_URL}departments/${departmentId}/join/${userId}`,
         {},
         {
           headers: {
@@ -161,7 +161,7 @@ const useDepartmentStore = create((set, get) => ({
     try {
       const token = localStorage.getItem('token');
       await axios.delete(
-        `${API_URL}/departments/${departmentId}/leave/${userId}`,
+        `${API_URL}departments/${departmentId}/leave/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

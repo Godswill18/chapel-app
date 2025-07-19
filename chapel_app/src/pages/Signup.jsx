@@ -9,8 +9,8 @@ const Signup = () => {
   const [newUser, setNewUser] = useState({
     firstName: '',
     lastName: '',
-    department: '',
-    position: '',
+    // department: '',
+    // position: '',
     courseOfStudy: '',
     email: '',
     phoneNumber: '',
@@ -86,8 +86,8 @@ const Signup = () => {
       setNewUser({
       firstName: '',
       lastName: '',
-      department: '',
-      position: '',
+      // department: '',
+      // position: '',
       courseOfStudy: '',
       email: '',
       phoneNumber: '',
@@ -181,7 +181,7 @@ const Signup = () => {
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Department
               </label>
@@ -203,10 +203,10 @@ const Signup = () => {
                 <option value="music"> Music</option>
 
                 </select>
-            </div>
-            </div>
+            </div> */}
+            {/* </div> */}
 
-                <div>
+                {/* <div>
               <label htmlFor="position" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Position
               </label>
@@ -229,7 +229,7 @@ const Signup = () => {
 
                   </select>
               </div>
-            </div>
+            </div> */}
 
             <div>
               <label htmlFor="courseOfStudy" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -249,8 +249,40 @@ const Signup = () => {
                   className="block w-full pl-10 pr-3 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
                   // placeholder="Enter your FirstName"
                 >
-                  <option value=""></option>
-                  <option value="Computer science">Computer Science</option>
+                   <optgroup label="Computer & Information Sciences">
+                      <option value="Computer Science">Computer Science</option>
+                      <option value="Information Technology">Information Technology</option>
+                      <option value="Software Engineering">Software Engineering</option>
+                      <option value="Data Science">Data Science</option>
+                      <option value="Cybersecurity">Cybersecurity</option>
+                    </optgroup>
+                    
+                    <optgroup label="Engineering">
+                      <option value="Electrical Engineering">Electrical Engineering</option>
+                      <option value="Mechanical Engineering">Mechanical Engineering</option>
+                      <option value="Civil Engineering">Civil Engineering</option>
+                      <option value="Chemical Engineering">Chemical Engineering</option>
+                    </optgroup>
+                    
+                    <optgroup label="Business & Economics">
+                      <option value="Business Administration">Business Administration</option>
+                      <option value="Economics">Economics</option>
+                      <option value="Accounting">Accounting</option>
+                      <option value="Finance">Finance</option>
+                    </optgroup>
+                    
+                    <optgroup label="Health Sciences">
+                      <option value="Medicine">Medicine</option>
+                      <option value="Nursing">Nursing</option>
+                      <option value="Pharmacy">Pharmacy</option>
+                      <option value="Public Health">Public Health</option>
+                    </optgroup>
+                    
+                    <optgroup label="Arts & Humanities">
+                      <option value="English Literature">English Literature</option>
+                      <option value="History">History</option>
+                      <option value="Fine Arts">Fine Arts</option>
+                    </optgroup>
                   </select>
               </div>
             </div>

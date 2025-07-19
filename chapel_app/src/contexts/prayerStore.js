@@ -15,7 +15,7 @@ export const usePrayerStore = create(
 
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`${API_URL}/prayer/public-view`, {
+        const res = await axios.get(`${API_URL}prayer/public-view`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -44,7 +44,7 @@ export const usePrayerStore = create(
     sendPrayerRequest: async (formData) => {
       try {
         const token = localStorage.getItem('token');
-        const { data } = await axios.post(`${API_URL}/prayer/submitPrayerRequest`, formData, {
+        const { data } = await axios.post(`${API_URL}prayer/submitPrayerRequest`, formData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

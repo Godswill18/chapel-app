@@ -71,7 +71,7 @@ const Home = () => {
     const loadStats = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`${API_URL}/dashboard/stats`, {
+        const res = await fetch(`${API_URL}dashboard/stats`, {
           credentials: 'include',
         });
         const data = await res.json();
