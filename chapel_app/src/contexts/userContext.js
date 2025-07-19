@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
 export const useUserStore = create((set) => ({
   profile: null,

@@ -13,7 +13,7 @@ import { useCalendarStore } from '../contexts/calendarContext';
 import HomeCalendar from '../components/HomeCalendar';
 // import { useAuth } from '../contexts/AuthContext.jsx';
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
 const Home = () => {
   const { user, login: loginToAuthStore } = useAuthStore();
