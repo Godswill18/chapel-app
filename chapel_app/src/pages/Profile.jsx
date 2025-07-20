@@ -163,15 +163,21 @@ const ProfilePage = () => {
         </div>
       </div>
 
+      
+
       {/* Profile Header */}
+      
       <Card className="mb-8">
         <div className="p-6">
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-6">
             <div className="relative group">
               <div className="w-24 h-24 rounded-full overflow-hidden bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                
                 {profile.profileImg ? (
                   <img 
-                    src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${profile.profileImg?.replace(/^\/+/, '')}`}
+                    // src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${profile.profileImg?.replace(/^\/+/, '')}`}
+                    src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${profile.profileImg}`}
+
                     alt="Profile" 
                     className="w-full h-full object-cover"
                   />

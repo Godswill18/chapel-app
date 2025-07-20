@@ -237,7 +237,9 @@ const Announcements = () => {
                       <img
                         src={announcement.image.startsWith('http') ? 
                              announcement.image : 
-                              `${import.meta.env.VITE_BACKEND_API_URL || ''}/${announcement.image.replace(/^\/+/, '')}`}
+                              // `${import.meta.env.VITE_BACKEND_API_URL || ''}/${announcement.image.replace(/^\/+/, '')}`}
+                              `${import.meta.env.VITE_BACKEND_IMAGE_URL}${announcement.profileImg}`}
+
                         alt={announcement.title}
                         className="w-full h-48 object-cover rounded-lg"
                         onError={(e) => {
@@ -350,7 +352,9 @@ const Announcements = () => {
                   <img
                     src={selectedAnnouncement.image.startsWith('http') ? 
                          selectedAnnouncement.image : 
-                         `${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${selectedAnnouncement.image.replace(/^\/+/, '')}`}
+                        //  `${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${selectedAnnouncement.image.replace(/^\/+/, '')}`}
+                        `${import.meta.env.VITE_BACKEND_IMAGE_URL}${selectedAnnouncement.profileImg}`}
+
                     alt={selectedAnnouncement.title}
                     className="w-full h-64 object-cover rounded-lg"
                     onError={(e) => {

@@ -463,7 +463,9 @@ const Home = () => {
                         : 'bg-gradient-to-br from-blue-500 to-purple-600'
                     }`}>
                        <img 
-                                  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
+                                  // src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
+                                  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`}
+
                                     alt="Profile" 
                                     className="w-full h-full object-cover"
                                   />
