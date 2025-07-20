@@ -32,14 +32,15 @@ const SideNavigation = () => {
   const navigate = useNavigate();
   const { logoutUser } = useUserContext();
 
-  const handleLogout = async () => {
-    const response = await logoutUser();
-    if (response) {
-      navigate('/login');
-    } else {
-      console.error(response);
-    }
-  };
+const handleLogout = async () => {
+  const response = await logoutUser();
+  if (response.success) {
+    navigate('/login');
+  } else {
+    console.error('Logout failed:', response.message);
+  }
+};
+
 
   const navItems = [
     { path: '/', label: 'Home', icon: Home },

@@ -125,20 +125,36 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
         }
       },
 
-   // Inside useUserContext
-    logoutUser: async () => {
-        try {
-          await fetch(`${API_URL}api/auth/logout`, {
-            method: 'POST',
-            credentials: 'include'
-          });
-        } catch (err) {
-          console.error('Logout Error', err);
-        } finally {
-          localStorage.removeItem('token');
-          set({ user: null, token: null, isAuthenticated: false });
-        }
-      }
+ logoutUser: async () => {
+  try {
+    const res = await fetch(`${API_URL}api/auth/logout`, {
+      method: 'POST',
+      credentials: 'include'
+    });
+
+    // Clear local data regardless of backend response
+    localStorage.removeItem('token');
+    set({ user: null, token: null, isAuthenticated: false });
+
+    // Also clear Zustand persisted auth store
+    useAuthStore.getState().logout();
+
+    return res.ok
+      ? { success: true }
+      : { success: false, message: 'Logout failed on server' };
+
+  } catch (err) {
+    console.error('Logout Error', err);
+
+    // Still clear state even if network fails
+    localStorage.removeItem('token');
+    set({ user: null, token: null, isAuthenticated: false });
+    useAuthStore.getState().logout();
+
+    return { success: false, message: 'Network error during logout.' };
+  }
+}
+
     
 
 
