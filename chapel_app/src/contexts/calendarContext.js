@@ -44,7 +44,7 @@ export const useCalendarStore = create(
 
       try {
         const token = localStorage.getItem('token');
-        const res = await axios.get(`${API_URL}api/calendar/events`, {
+        const res = await axios.get(`${API_URL}calendar/events`, {
           params: { startDate, endDate },
           headers: {
             Authorization: `Bearer ${token}`,
