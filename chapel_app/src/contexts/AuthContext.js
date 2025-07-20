@@ -70,11 +70,15 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
     loginUser: async (payload) => {
   try {
+    const token = localStorage.getItem('token');
     const res = await fetch(`${API_URL}api/auth/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      credentials: 'include',
+       headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+      withCredentials: true,
+      credentials: "include",
     });
 
     const data = await res.json();          // always parse
@@ -95,12 +99,14 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
  queryKey: ["authUser"], // we use the querykey to give a unique name to our query and refer to it later
 getUser: async () => {
   try{
+    const token = localStorage.getItem('token');
     const res = await fetch(`${API_URL}api/auth/me`, {
       method: "GET",
+       headers: {
+            Authorization: `Bearer ${token}`,
+          },
+      withCredentials: true,
       credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      }
     });
 
     const data = await res.json();
