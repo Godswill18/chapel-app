@@ -32,25 +32,26 @@ const Home = () => {
     anonymous: false,
   });
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await getUser();
-        if (res && res._id) {
-          loginToAuthStore(res, null);
-        } else {
-          navigate('/login');
-        }
-      } catch (error) {
-        console.error("Error fetching user:", error);
+ useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await getUser();
+      if (res && res._id) {
+        loginToAuthStore(res, null);
+      } else {
         navigate('/login');
       }
-    };
-
-    if (!user) {
-      fetchUser();
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      navigate('/login');
     }
-  }, [user, getUser, loginToAuthStore, navigate]);
+  };
+
+  if (!user) {
+    fetchUser();
+  }
+}, []); // ✅ Only run once
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
