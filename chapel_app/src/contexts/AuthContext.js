@@ -70,25 +70,27 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
     loginUser: async (payload) => {
   try {
-    const token = localStorage.getItem('token');
     const res = await fetch(`${API_URL}api/auth/login`, {
       method: 'POST',
-       headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-      withCredentials: true,
-      credentials: "include",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload),
+      credentials: 'include' // ✅ allows cookies
     });
 
-    const data = await res.json();          // always parse
+    const data = await res.json().catch(() => ({})); // prevent JSON parse crash
 
     if (res.ok && data.success) {
+      // ✅ Save token if backend sends it
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+      }
+
       return { success: true, message: data.message, data };
     }
 
-    // handles 400, 403, 500, etc. – whatever the server sent
-    return { success: false, message: data.message || data.error || 'Login failed.' };
+    return { success: false, message: data.message || 'Login failed.' };
 
   } catch (err) {
     console.error('Login Error', err);
@@ -96,32 +98,32 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
   }
 },
 
+
  queryKey: ["authUser"], // we use the querykey to give a unique name to our query and refer to it later
-getUser: async () => {
-  try{
-    const token = localStorage.getItem('token');
-    const res = await fetch(`${API_URL}api/auth/me`, {
-      method: "GET",
-       headers: {
-            Authorization: `Bearer ${token}`,
-          },
-      withCredentials: true,
-      credentials: "include",
-    });
+  getUser: async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const res = await fetch(`${API_URL}api/auth/me`, {
+            method: 'GET',
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+            credentials: 'include'
+          });
 
-    const data = await res.json();
-        if(data.error) return null; // If there's an error, return null to indicate no user is authenticated
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Failed to fetch user');
 
-        if(!res.ok){
-          throw new Error(data.error || "Something went wrong");
+          set({
+            user: data,
+            isAuthenticated: true
+          });
+
+          return data;
+        } catch (error) {
+          console.error('Error fetching user:', error);
+          set({ user: null, isAuthenticated: false });
+          return null;
         }
-        // console.log( "auth user:",data);
-        return data;
-      }catch (error){
-        console.error("Error fetching user data:", error);
-        throw new Error(error);
-      }
-    },
+      },
 
    // Inside useUserContext
     logoutUser: async () => {
