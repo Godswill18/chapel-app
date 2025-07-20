@@ -37,7 +37,7 @@ const SideNavigation = () => {
     if (response) {
       navigate('/login');
     } else {
-      console.error(response.message);
+      console.error(response);
     }
   };
 
