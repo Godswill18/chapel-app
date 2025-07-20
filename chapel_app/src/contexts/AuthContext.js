@@ -127,26 +127,19 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
    // Inside useUserContext
     logoutUser: async () => {
-      try {
-        const res = await fetch(`${API_URL}api/auth/logout`, {
-          method: 'POST',
-          credentials: 'include',
-        });
-
-        if (!res.ok) {
-          const data = await res.json();
-          console.log('Backend logout failed:', data);
+        try {
+          await fetch(`${API_URL}api/auth/logout`, {
+            method: 'POST',
+            credentials: 'include'
+          });
+        } catch (err) {
+          console.error('Logout Error', err);
+        } finally {
+          localStorage.removeItem('token');
+          set({ user: null, token: null, isAuthenticated: false });
         }
-
-        // Clear frontend state
-        useAuthStore.getState().logout();
-
-        return { success: true };
-      } catch (err) {
-        console.error('Logout Error', err);
-        return { success: false, message: 'Network error during logout.' };
       }
-    }
+    
 
 
 
