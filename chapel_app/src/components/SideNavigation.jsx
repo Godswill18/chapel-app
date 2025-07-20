@@ -34,7 +34,7 @@ const SideNavigation = () => {
 
   const handleLogout = async () => {
     const response = await logoutUser();
-    if (response.success) {
+    if (response) {
       navigate('/login');
     } else {
       console.error(response.message);
