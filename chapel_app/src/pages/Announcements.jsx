@@ -350,7 +350,7 @@ const Announcements = () => {
                   <img
                     src={selectedAnnouncement.image.startsWith('http') ? 
                          selectedAnnouncement.image : 
-                         `${process.env.REACT_APP_API_URL || ''}/${selectedAnnouncement.image.replace(/^\/+/, '')}`}
+                         `${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${selectedAnnouncement.image.replace(/^\/+/, '')}`}
                     alt={selectedAnnouncement.title}
                     className="w-full h-64 object-cover rounded-lg"
                     onError={(e) => {

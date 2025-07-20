@@ -343,9 +343,9 @@ const {user} = useAuthStore();
                           </div>
                           ) : (
                               <img 
-                                  src={`${import.meta.env.VITE_BACKEND_API_URL || ''}/${lead.profileImg.replace(/^\/+/, '')}`}
+                                  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${lead.profileImg.replace(/^\/+/, '')}`}
                                     alt="Profile" 
-                                    className="w-full h-full object-cover"
+                                    className="w-10 object-cover"
                                   />
                           )}
                           <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1">
@@ -399,11 +399,13 @@ const {user} = useAuthStore();
                             key={index}
                             className="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600"
                           >
+                                  {/* {console.log(member)} */}
+
                             <div className="flex items-center space-x-3">
                               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                                 {member.profileImg ? (
                                   <img 
-                                  src={`${import.meta.env.VITE_BACKEND_API_URL || ''}/${member.profileImg.replace(/^\/+/, '')}`}
+                                  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${member.profileImg.replace(/^\/+/, '')}`}
                                     alt="Profile" 
                                     className="w-full h-full object-cover"
                                   />

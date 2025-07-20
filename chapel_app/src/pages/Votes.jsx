@@ -228,7 +228,7 @@ useEffect(() => {
                         <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
                           {user.profileImg ? (
                             <img 
-                              src={`${import.meta.env.VITE_BACKEND_API_URL || ''}${user.profileImg.startsWith('/') ? '' : '/'}${user.profileImg}`}
+                              src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}${user.profileImg.startsWith('/') ? '' : '/'}${user.profileImg}`}
                               alt="Profile" 
                               className="w-full h-full object-cover rounded-full"
                               onError={(e) => {
