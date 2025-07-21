@@ -38,9 +38,11 @@ const useDepartmentStore = create((set, get) => ({
   // Initialize store
   init: (user) => {
     set({ user });
-    const cleanup = setupWindowListeners(useDepartmentStore);
-    return cleanup;
+    // const cleanup = setupWindowListeners(useDepartmentStore);
+    // return cleanup;
   },
+
+
   refreshAll: async () => {
   const { loading } = get();
   if (loading) return; // Prevent concurrent refreshes

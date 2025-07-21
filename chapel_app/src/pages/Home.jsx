@@ -241,17 +241,24 @@ useEffect(() => {
   };
 
   const getDaysUntilBirthday = (dateString) => {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const birthday = new Date(dateString);
-    birthday.setHours(0, 0, 0, 0);
-    const diffTime = birthday.getTime() - today.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
-    if (diffDays === 0) return 'Today';
-    if (diffDays === 1) return 'Tomorrow';
-    return `${diffDays} days`;
-  };
+  const today = new Date();
+  const birthDate = new Date(dateString);
+
+  // Set birthday to this year
+  let nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+
+  // If birthday this year has passed, set to next year
+  if (nextBirthday < today) {
+    nextBirthday.setFullYear(today.getFullYear() + 1);
+  }
+
+  // Calculate difference in days
+  const diffTime = nextBirthday - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  return diffDays;
+};
+
 
   if (loading){
     return <HomeSkeleton/>
@@ -534,7 +541,7 @@ useEffect(() => {
                       {formatBirthdayDate(birthday.dateOfBirth)}
                     </div>
                     <div className="text-xs text-gray-500 dark:text-gray-400">
-                      {getDaysUntilBirthday(birthday.dateOfBirth)}
+                      {getDaysUntilBirthday(birthday.dateOfBirth)} days
                     </div>
                   </div>
                 </div>
