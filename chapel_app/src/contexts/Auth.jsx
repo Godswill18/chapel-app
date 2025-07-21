@@ -16,27 +16,31 @@ export const AuthProvider = ({ children }) => {
   const { getUser } = useUserContext();
   const { user, login, logout, isAuthenticated } = useAuthStore();
   const [loading, setLoading] = useState(true);
+  const [initialized, setInitialized] = useState(false);
 
   useEffect(() => {
+    if (initialized) return;
+
     const restoreSession = async () => {
       try {
+        setLoading(true);
         const userData = await getUser();
         if (userData && userData._id) {
-          login(userData, null); // no need for token since it's in httpOnly cookie
+          login(userData, null);
+        } else {
+          logout();
         }
       } catch (err) {
         console.error("Session restoration failed", err);
+        logout();
       } finally {
         setLoading(false);
+        setInitialized(true);
       }
     };
 
-    if (!user) {
-      restoreSession();
-    } else {
-      setLoading(false);
-    }
-  }, [user]);
+    restoreSession();
+  }, [initialized]);
 
   return (
     <AuthContext.Provider

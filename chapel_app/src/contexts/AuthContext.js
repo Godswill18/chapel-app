@@ -100,30 +100,28 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
 
 
  queryKey: ["authUser"], // we use the querykey to give a unique name to our query and refer to it later
-  getUser: async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const res = await fetch(`${API_URL}api/auth/me`, {
-            method: 'GET',
-            headers: token ? { Authorization: `Bearer ${token}` } : {},
-            credentials: 'include'
-          });
+getUser: async () => {
+  try {
+    const res = await fetch(`${API_URL}api/auth/me`, {
+      method: 'GET',
+      credentials: 'include'
+    });
 
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error || 'Failed to fetch user');
+    if (res.status === 401) {
+      throw new Error('Unauthorized');
+    }
 
-          set({
-            user: data,
-            isAuthenticated: true
-          });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Failed to fetch user');
 
-          return data;
-        } catch (error) {
-          console.error('Error fetching user:', error);
-          set({ user: null, isAuthenticated: false });
-          return null;
-        }
-      },
+    return data;
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    // Clear invalid credentials
+    localStorage.removeItem('token');
+    throw error;
+  }
+},
 
  logoutUser: async () => {
   try {

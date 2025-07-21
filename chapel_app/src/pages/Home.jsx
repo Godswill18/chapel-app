@@ -39,19 +39,21 @@ useEffect(() => {
   const loadData = async () => {
     try {
       setLoading(true);
+      
+      // First verify authentication
+      try {
+        const userData = await getUser();
+        if (!userData?._id) {
+          navigate('/login');
+          return;
+        }
+        loginToAuthStore(userData, localStorage.getItem('token'));
+      } catch (err) {
+        navigate('/login');
+        return;
+      }
 
-      // ✅ Check user
-      const res = await getUser();
-    if (res && res._id) {
-      const storedToken = localStorage.getItem('token');
-      loginToAuthStore(res, storedToken);
-    } else {
-      navigate('/login');
-      return;
-    }
-
-
-      // ✅ Load stats, birthdays, events in parallel
+      // Then load other data
       await Promise.all([
         fetchStats(controller.signal),
         fetchBirthdays(),
@@ -61,6 +63,9 @@ useEffect(() => {
     } catch (error) {
       if (error.name !== 'AbortError') {
         console.error('Error loading home data:', error);
+        if (error.message.includes('401')) {
+          navigate('/login');
+        }
       }
     } finally {
       setLoading(false);
@@ -69,9 +74,7 @@ useEffect(() => {
 
   loadData();
 
-  return () => {
-    controller.abort(); // ✅ Cleanup
-  };
+  return () => controller.abort();
 }, []);
 
 
