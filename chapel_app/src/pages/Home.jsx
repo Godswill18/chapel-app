@@ -32,25 +32,46 @@ const Home = () => {
     anonymous: false,
   });
 
- useEffect(() => {
-  const fetchUser = async () => {
+  
+useEffect(() => {
+  const controller = new AbortController();
+
+  const loadData = async () => {
     try {
+      setLoading(true);
+
+      // ✅ Check user
       const res = await getUser();
       if (res && res._id) {
         loginToAuthStore(res, null);
       } else {
         navigate('/login');
+        return;
       }
+
+      // ✅ Load stats, birthdays, events in parallel
+      await Promise.all([
+        fetchStats(controller.signal),
+        fetchBirthdays(),
+        fetchEvents()
+      ]);
+
     } catch (error) {
-      console.error("Error fetching user:", error);
-      navigate('/login');
+      if (error.name !== 'AbortError') {
+        console.error('Error loading home data:', error);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (!user) {
-    fetchUser();
-  }
-}, []); // ✅ Only run once
+  loadData();
+
+  return () => {
+    controller.abort(); // ✅ Cleanup
+  };
+}, []);
+
 
 
   const handleSubmit = async (e) => {
@@ -68,29 +89,29 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    const loadStats = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`${API_URL}api/dashboard/stats`, {
-          credentials: 'include',
-        });
-        const data = await res.json();
-        if (data.success) {
-          const statData = [
-            { label: 'Active Members', value: data.data.activeMembers, icon: Users, color: 'bg-blue-500' },
-            { label: 'Prayer Requests', value: data.data.prayerRequests, icon: Heart, color: 'bg-red-500' },
-            { label: 'Upcoming Events', value: data.data.upcomingEvents, icon: Calendar, color: 'bg-green-500' },
-            { label: "This Week's Votes", value: data.data.weeklyVotes, icon: Trophy, color: 'bg-yellow-500' },
-          ];
-          setStats(statData);
-        } else {
-          console.error('Failed to load stats');
-        }
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const loadStats = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const res = await fetch(`${API_URL}api/dashboard/stats`, {
+  //         credentials: 'include',
+  //       });
+  //       const data = await res.json();
+  //       if (data.success) {
+  //         const statData = [
+  //           { label: 'Active Members', value: data.data.activeMembers, icon: Users, color: 'bg-blue-500' },
+  //           { label: 'Prayer Requests', value: data.data.prayerRequests, icon: Heart, color: 'bg-red-500' },
+  //           { label: 'Upcoming Events', value: data.data.upcomingEvents, icon: Calendar, color: 'bg-green-500' },
+  //           { label: "This Week's Votes", value: data.data.weeklyVotes, icon: Trophy, color: 'bg-yellow-500' },
+  //         ];
+  //         setStats(statData);
+  //       } else {
+  //         console.error('Failed to load stats');
+  //       }
+  //     } catch (error) {
+  //       console.error('Error fetching stats:', error);
+  //     }
+  //   };
 
     // const fetchCalendarEvents = async () => {
     //   try {
@@ -114,26 +135,44 @@ const Home = () => {
     //   }
     // };
 
-    const loadData = async () => {
-      try {
-        setLoading(true);
-        await Promise.all([
-          loadStats(),
-          // fetchCalendarEvents(),
-          fetchEvents(), 
-          fetchBirthdays()
-        ]);
-      } catch (error) {
-        console.error('Error loading data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  //   const loadData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       await Promise.all([
+  //         loadStats(),
+  //         // fetchCalendarEvents(),
+  //         fetchEvents(), 
+  //         fetchBirthdays()
+  //       ]);
+  //     } catch (error) {
+  //       console.error('Error loading data:', error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
 
-    loadData();
-  }, [fetchBirthdays]);
+  //   loadData();
+  // }, [fetchBirthdays]);
 
-  
+  const fetchStats = async (signal) => {
+  const response = await fetch(`${API_URL}api/dashboard/stats`, {
+    credentials: 'include',
+    signal,
+  });
+  const data = await response.json();
+  if (data.success) {
+    const statData = [
+      { label: 'Active Members', value: data.data.activeMembers, icon: Users, color: 'bg-blue-500' },
+      { label: 'Prayer Requests', value: data.data.prayerRequests, icon: Heart, color: 'bg-red-500' },
+      { label: 'Upcoming Events', value: data.data.upcomingEvents, icon: Calendar, color: 'bg-green-500' },
+      { label: "This Week's Votes", value: data.data.weeklyVotes, icon: Trophy, color: 'bg-yellow-500' },
+    ];
+    setStats(statData);
+  } else {
+    console.error('Failed to load stats');
+  }
+};
+
 
 
   const categories = [
