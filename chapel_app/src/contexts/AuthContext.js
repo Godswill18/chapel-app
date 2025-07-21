@@ -112,7 +112,10 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
           const data = await res.json();
           if (!res.ok) throw new Error(data.error || 'Failed to fetch user');
 
-          useAuthStore.getState().login(data, token); // ✅ persist token and user
+          set({
+            user: data,
+            isAuthenticated: true
+          });
 
           return data;
         } catch (error) {

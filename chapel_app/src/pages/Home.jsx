@@ -42,8 +42,6 @@ useEffect(() => {
 
       // ✅ Check user
       const res = await getUser();
-      console.log(res);
-      console.log(res._id);
     if (res && res._id) {
       const storedToken = localStorage.getItem('token');
       loginToAuthStore(res, storedToken);
