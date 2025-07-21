@@ -41,13 +41,17 @@ useEffect(() => {
       setLoading(true);
 
       // ✅ Check user
-      // const res = await getUser();
-      // if (res && res._id) {
-      //   loginToAuthStore(res, null);
-      // } else {
-      //   navigate('/login');
-      //   return;
-      // }
+      const res = await getUser();
+      console.log(res);
+      console.log(res._id);
+    if (res && res._id) {
+      const storedToken = localStorage.getItem('token');
+      loginToAuthStore(res, storedToken);
+    } else {
+      navigate('/login');
+      return;
+    }
+
 
       // ✅ Load stats, birthdays, events in parallel
       await Promise.all([
