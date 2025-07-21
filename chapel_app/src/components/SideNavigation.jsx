@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Home, 
   Bell, 
@@ -55,9 +55,10 @@ const handleLogout = async () => {
   ];
   
 
-  if (!isAuthenticated) {
-    return null;
-  }
+//  if (!isAuthenticated) {
+
+//     return <Navigate to="/login" replace />;
+//   }
 
   return (
     <>

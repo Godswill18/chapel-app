@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Home, 
   Bell, 
@@ -42,9 +42,10 @@ const Navigation= () => {
     { path: '/departments', label: 'Departments', icon: Users },
   ];
 
-  if (!isAuthenticated) {
-    return null;
-  }
+//  if (!isAuthenticated) {
+
+//     return <Navigate to="/login" replace />;
+//   }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700">
