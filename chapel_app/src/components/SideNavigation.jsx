@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Home, 
@@ -21,16 +21,37 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuth } from '../contexts/Auth.jsx';
-import { useUserContext } from '../contexts/AuthContext.js';
+import { useAuthStore, useUserContext } from '../contexts/AuthContext.js';
 
 const SideNavigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { user, isAuthenticated } = useAuth();
+  // const { user, isAuthenticated } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const { logoutUser } = useUserContext();
+    const { user, login: loginToAuthStore } = useAuthStore();
+    const { getUser } = useUserContext();
+
+
+useEffect(() => {
+  const verifyUser = async () => {
+    try {
+      const userData = await getUser();
+      if (!userData?._id) {
+        navigate('/login');
+        return;
+      }
+      loginToAuthStore(userData, localStorage.getItem('token'));
+    } catch (err) {
+      navigate('/login');
+    }
+  };
+
+  verifyUser();
+}, [getUser, loginToAuthStore, navigate]);
+
 
 const handleLogout = async () => {
   const response = await logoutUser();
