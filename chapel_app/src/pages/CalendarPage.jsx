@@ -87,13 +87,13 @@ const normalizeDate = (dateStr) => {
             Stay updated with all chapel events, services, and important dates
           </p>
         </div>
-        <button
+        {/* <button
           onClick={() => setShowEventForm(true)}
           className="mt-4 lg:mt-0 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 flex items-center space-x-2 shadow-lg hover:shadow-xl"
         >
           <Plus className="h-4 w-4" />
           <span>Add Event</span>
-        </button>
+        </button> */}
       </div>
 
       {/* Search and Filter */}
