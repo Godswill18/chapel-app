@@ -17,7 +17,7 @@ import {
   Users
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../contexts/authStore';
 
 const Navigation= () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
