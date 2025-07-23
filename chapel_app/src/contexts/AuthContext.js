@@ -98,6 +98,27 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
   }
 },
 
+ fetchWithAuth: async (url, options = {}) => {
+  const token = localStorage.getItem('token');
+  const headers = {
+    ...options.headers,
+    'Authorization': `Bearer ${token}`,
+  };
+
+  try {
+    const res = await fetch(url, { ...options, headers });
+    if (res.status === 401) {
+      localStorage.removeItem('token');
+      useAuthStore.getState().logout();
+      window.location.href = '/login'; // Force redirect
+      throw new Error('Unauthorized');
+    }
+    return res;
+  } catch (err) {
+    throw err;
+  }
+},
+
 
  queryKey: ["authUser"], // we use the querykey to give a unique name to our query and refer to it later
 getUser: async () => {

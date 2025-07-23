@@ -28,6 +28,7 @@ export const AuthProvider = ({ children }) => {
         login(userData, localStorage.getItem('token'));
       } else {
         logout();
+        localStorage.removeItem('token');
       }
     } catch (err) {
       console.error('Session restoration failed:', err);
@@ -64,6 +65,10 @@ export const AuthProvider = ({ children }) => {
 
   //   restoreSession();
   // }, [initialized]);
+
+  // if (loading || !initialized) {
+  //   return <div>Loading...</div>; // Or a lightweight skeleton
+  // }
 
   return (
     <AuthContext.Provider

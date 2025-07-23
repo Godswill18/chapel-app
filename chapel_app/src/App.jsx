@@ -14,8 +14,6 @@ import Departments from './pages/Departments';
 import Profile from './pages/Profile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import { useAuthStore } from './contexts/AuthContext.js';
-import useDepartmentStore from './contexts/departmentStore.js';
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -28,15 +26,6 @@ const PublicRoute = ({ children }) => {
 };
 
 function App() {
-  //  const { user } = useAuthStore();
-  // const initStore = useDepartmentStore(state => state.init);
-
-  // useEffect(() => {
-  //   const cleanup = initStore(user);
-  //   return () => {
-  //     cleanup(); // Cleanup listeners on unmount
-  //   };
-  // }, [user, initStore]);
 
   return (
     <ThemeProvider>
