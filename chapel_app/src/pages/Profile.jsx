@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { User, Mail, Phone, MapPin, Calendar, Edit, Save, X, Camera, Lock } from 'lucide-react';
+import { Mail, Phone, MapPin, Calendar, Edit, Save, X, Camera, Lock } from 'lucide-react';
 import Card from '../components/Card';
 import { useUserStore } from '../contexts/userContext';
 import { toast, ToastContainer } from 'react-toastify';

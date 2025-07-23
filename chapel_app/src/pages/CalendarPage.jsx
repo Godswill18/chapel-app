@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Calendar as CalendarIcon, Plus, Filter, Search, Clock, MapPin, Users, X } from 'lucide-react';
+import { Calendar as CalendarIcon, Filter, Search, Clock, MapPin, Users, X } from 'lucide-react';
 import Card from '../components/Card';
 import Calendar from '../components/Calendar';
 import { useCalendarStore } from '../contexts/calendarContext';

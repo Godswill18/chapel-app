@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Megaphone, Calendar, User, Pin, Search, Filter, X, Image as ImageIcon, Eye, ChevronDown, ChevronUp } from 'lucide-react';
 import Card from '../components/Card';
 import { useAnnouncementStore } from '../contexts/useAnnouncementStore';
-import { AnnouncementSkeleton, EmptyStateSkeleton } from '../skeleton/AnnouncementSkeleton';
+import { AnnouncementSkeleton } from '../skeleton/AnnouncementSkeleton';
 
 const Announcements = () => {
   const [searchTerm, setSearchTerm] = useState('');

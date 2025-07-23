@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Users, Heart, Calendar, Trophy, Bell, TrendingUp, Gift, Cake, Plus, Send, X } from 'lucide-react';
+import { Users, Heart, Calendar, Trophy, Bell, TrendingUp, Gift, Cake, Send, X } from 'lucide-react';
 import Card from '../components/Card';
-import CalendarCard from '../components/Calendar';
+// import CalendarCard from '../components/Calendar';
 import Carousel from '../components/Carousel';
 import { useAuthStore, useUserContext } from '../contexts/AuthContext';
 import HomeSkeleton from '../skeleton/HomeSkeleton';
@@ -32,38 +32,6 @@ const Home = () => {
     anonymous: false,
   });
 
-  
-useEffect(() => {
-  const controller = new AbortController();
-
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      
-
-      // Then load other data
-      await Promise.all([
-        fetchStats(controller.signal),
-        fetchBirthdays(),
-        fetchEvents()
-      ]);
-
-    } catch (error) {
-      if (error.name !== 'AbortError') {
-        console.error('Error loading home data:', error);
-        if (error.message.includes('401')) {
-          navigate('/login');
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  loadData();
-
-  return () => controller.abort();
-}, []);
 
 
 
@@ -249,6 +217,53 @@ useEffect(() => {
 
   return diffDays;
 };
+
+useEffect(() => {
+  const controller = new AbortController();
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      
+      // First verify authentication
+      try {
+        const userData = await getUser();
+        if (!userData?._id) {
+          navigate('/login');
+          return;
+        }
+        loginToAuthStore(userData, localStorage.getItem('token'));
+      } catch (err) {
+        navigate('/login');
+        return;
+      }
+
+      // Then load other data
+      await Promise.all([
+        fetchStats(controller.signal),
+        fetchBirthdays(),
+        fetchEvents()
+      ]);
+        // fetchStats(controller.signal),
+        // fetchBirthdays(),
+        // fetchEvents()
+
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error('Error loading home data:', error);
+        if (error.message.includes('401')) {
+          navigate('/login');
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadData();
+
+  return () => controller.abort();
+}, []);
 
 
   if (loading){

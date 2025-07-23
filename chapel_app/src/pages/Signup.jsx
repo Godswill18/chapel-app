@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Church, User, Mail, Lock, Eye, EyeOff, UserPlus, Phone, Calendar, Group, SquareStack, GraduationCap } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Church, User, Mail, Lock, Eye, EyeOff, UserPlus, Phone, Calendar,GraduationCap } from 'lucide-react';
 // import { useAuth } from '../contexts/AuthContext';
 import { useUserContext } from '../contexts/AuthContext.js';
 import { Bounce, toast, ToastContainer } from 'react-toastify';

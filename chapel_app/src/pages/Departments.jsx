@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Users, Crown, Mail, Phone, MapPin, Search, Filter, ChevronDown, ChevronUp } from 'lucide-react';
+import { Users, Crown, Mail, Phone, Search, Filter, ChevronDown, ChevronUp } from 'lucide-react';
 import Card from '../components/Card';
 import useDepartmentStore  from '../contexts/departmentStore';
 import { useAuthStore } from '../contexts/AuthContext';
