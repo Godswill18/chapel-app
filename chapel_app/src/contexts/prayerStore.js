@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onrender.com/'
 
 export const usePrayerStore = create(
   devtools((set, get) => ({

@@ -13,7 +13,7 @@ import { useCalendarStore } from '../contexts/calendarContext';
 import HomeCalendar from '../components/HomeCalendar';
 // import { useAuth } from '../contexts/AuthContext.jsx';
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onrender.com/'
 
 const Home = () => {
   const { user, login: loginToAuthStore } = useAuthStore();
@@ -49,6 +49,53 @@ const Home = () => {
       toast.error(message, { position: 'top-center', transition: Bounce });
     }
   };
+
+  useEffect(() => {
+  const controller = new AbortController();
+
+  const loadData = async () => {
+    try {
+      setLoading(true);
+      
+      // First verify authentication
+      try {
+        const userData = await getUser();
+        if (!userData?._id) {
+          navigate('/login');
+          return;
+        }
+        loginToAuthStore(userData, localStorage.getItem('token'));
+      } catch (err) {
+        navigate('/login');
+        return;
+      }
+
+      // Then load other data
+      await Promise.all([
+        fetchStats(controller.signal),
+        fetchBirthdays(),
+        fetchEvents()
+      ]);
+        // fetchStats(controller.signal),
+        // fetchBirthdays(),
+        // fetchEvents()
+
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error('Error loading home data:', error);
+        if (error.message.includes('401')) {
+          navigate('/login');
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadData();
+
+  return () => controller.abort();
+}, []);
 
   // useEffect(() => {
   //   const loadStats = async () => {
@@ -217,53 +264,6 @@ const Home = () => {
 
   return diffDays;
 };
-
-useEffect(() => {
-  const controller = new AbortController();
-
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      
-      // First verify authentication
-      try {
-        const userData = await getUser();
-        if (!userData?._id) {
-          navigate('/login');
-          return;
-        }
-        loginToAuthStore(userData, localStorage.getItem('token'));
-      } catch (err) {
-        navigate('/login');
-        return;
-      }
-
-      // Then load other data
-      await Promise.all([
-        fetchStats(controller.signal),
-        fetchBirthdays(),
-        fetchEvents()
-      ]);
-        // fetchStats(controller.signal),
-        // fetchBirthdays(),
-        // fetchEvents()
-
-    } catch (error) {
-      if (error.name !== 'AbortError') {
-        console.error('Error loading home data:', error);
-        if (error.message.includes('401')) {
-          navigate('/login');
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  loadData();
-
-  return () => controller.abort();
-}, []);
 
 
   if (loading){

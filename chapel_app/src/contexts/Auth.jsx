@@ -18,29 +18,29 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
-  // useEffect(() => {
-  //   if (initialized) return;
+  useEffect(() => {
+    if (initialized) return;
 
-  //   const restoreSession = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const userData = await getUser();
-  //       if (userData && userData._id) {
-  //         login(userData, null);
-  //       } else {
-  //         logout();
-  //       }
-  //     } catch (err) {
-  //       console.error("Session restoration failed", err);
-  //       logout();
-  //     } finally {
-  //       setLoading(false);
-  //       setInitialized(true);
-  //     }
-  //   };
+    const restoreSession = async () => {
+      try {
+        setLoading(true);
+        const userData = await getUser();
+        if (userData && userData._id) {
+          login(userData, localStorage.getItem('token'))
+        } else {
+          logout();
+        }
+      } catch (err) {
+        console.error("Session restoration failed", err);
+        logout();
+      } finally {
+        setLoading(false);
+        setInitialized(true);
+      }
+    };
 
-  //   restoreSession();
-  // }, [initialized]);
+    restoreSession();
+  }, [initialized]);
 
   return (
     <AuthContext.Provider

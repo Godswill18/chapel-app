@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onrender.com/'
 
 const useVoteStore = create((set, get) => ({
   // Fetch all votes

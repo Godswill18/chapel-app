@@ -1,7 +1,7 @@
 // In your store file (e.g., useUserStore.js)
 import { create } from 'zustand';
 
-const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onrender.com/'
 
 export const useUserStore = create((set) => ({
   users: [],
