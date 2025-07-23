@@ -71,9 +71,6 @@ const Home = () => {
         fetchBirthdays(),
         fetchEvents()
       ]);
-        // fetchStats(controller.signal),
-        // fetchBirthdays(),
-        // fetchEvents()
 
     } catch (error) {
       if (error.name !== 'AbortError') {
@@ -90,7 +87,9 @@ const Home = () => {
   loadData();
 
   return () => controller.abort();
-}, []);
+}, [getUser]);
+
+console.log(user)
 
   // useEffect(() => {
   //   const loadStats = async () => {
