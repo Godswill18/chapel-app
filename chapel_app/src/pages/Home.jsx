@@ -55,20 +55,15 @@ const Home = () => {
 
   const loadData = async () => {
     try {
-      setLoading(true);
+     if (!loading) setLoading(true);
       
-      // First verify authentication
-      try {
-        const userData = await getUser();
-        if (!userData?._id) {
-          navigate('/login');
-          return;
-        }
-        loginToAuthStore(userData, localStorage.getItem('token'));
-      } catch (err) {
+     // Verify authentication
+      const userData = await getUser();
+      if (!userData?._id) {
         navigate('/login');
         return;
       }
+      loginToAuthStore(userData, localStorage.getItem('token'));
 
       // Then load other data
       await Promise.all([

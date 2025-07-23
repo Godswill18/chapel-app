@@ -18,6 +18,29 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
+  useEffect(() => {
+  const restoreSession = async () => {
+    if (initialized) return; // Prevent multiple runs
+    try {
+      setLoading(true);
+      const userData = await getUser();
+      if (userData && userData._id) {
+        login(userData, localStorage.getItem('token'));
+      } else {
+        logout();
+      }
+    } catch (err) {
+      console.error('Session restoration failed:', err);
+      logout();
+    } finally {
+      setLoading(false);
+      setInitialized(true);
+    }
+  };
+
+  restoreSession();
+}, [getUser, login, logout, initialized]);
+
   // useEffect(() => {
   //   if (initialized) return;
 
