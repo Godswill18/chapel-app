@@ -87,7 +87,7 @@ const Home = () => {
   loadData();
 
   return () => controller.abort();
-}, [getUser]);
+}, [user]);
 
 console.log(user)
 
