@@ -111,7 +111,7 @@ const Home = () => {
   loadData();
 
   return () => controller.abort();
-}, []);
+}, [getUser]);
 
 // console.log(user)
 
