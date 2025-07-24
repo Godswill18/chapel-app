@@ -18,17 +18,31 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
   const restoreSession = async () => {
-    if (initialized) return; // Prevent multiple runs
+    if (initialized) return;
+    
     try {
       setLoading(true);
-      const userData = await getUser();
+      
+      // First try with cookies
+      let userData = await getUser();
+      
+      // If 401, try with localStorage token as fallback
+      if (!userData && localStorage.getItem('token')) {
+        const token = localStorage.getItem('token');
+        const res = await fetch(`${API_URL}api/auth/me`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        userData = await res.json();
+      }
+      
       if (userData && userData._id) {
         login(userData, localStorage.getItem('token'));
       } else {
         logout();
-        localStorage.removeItem('token');
       }
     } catch (err) {
       console.error('Session restoration failed:', err);
@@ -40,7 +54,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   restoreSession();
-}, [getUser, login, logout, initialized]);
+}, [initialized]);
 
   // useEffect(() => {
   //   if (initialized) return;

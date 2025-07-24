@@ -125,20 +125,26 @@ getUser: async () => {
   try {
     const res = await fetch(`${API_URL}api/auth/me`, {
       method: 'GET',
-      credentials: 'include'
+      credentials: 'include' // Always include credentials
     });
 
     if (res.status === 401) {
+      // Clear any invalid tokens
+      localStorage.removeItem('token');
       throw new Error('Unauthorized');
     }
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to fetch user');
-
+    
+    // Store token in localStorage as fallback
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+    }
+    
     return data;
   } catch (error) {
     console.error('Error fetching user:', error);
-    // Clear invalid credentials
     localStorage.removeItem('token');
     throw error;
   }

@@ -16,26 +16,26 @@ import HomeCalendar from '../components/HomeCalendar';
 const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onrender.com/'
 
 
-const fetchWithAuth = async (url, options = {}) => {
-  const token = localStorage.getItem('token');
-  const headers = {
-    ...options.headers,
-    'Authorization': `Bearer ${token}`,
-  };
+// const fetchWithAuth = async (url, options = {}) => {
+//   const token = localStorage.getItem('token');
+//   const headers = {
+//     ...options.headers,
+//     'Authorization': `Bearer ${token}`,
+//   };
 
-  try {
-    const res = await fetch(url, { ...options, headers });
-    if (res.status === 401) {
-      localStorage.removeItem('token');
-      useAuthStore.getState().logout();
-      window.location.href = '/login';
-      throw new Error('Unauthorized');
-    }
-    return res;
-  } catch (err) {
-    throw err;
-  }
-};
+//   try {
+//     const res = await fetch(url, { ...options, headers });
+//     if (res.status === 401) {
+//       localStorage.removeItem('token');
+//       useAuthStore.getState().logout();
+//       window.location.href = '/login';
+//       throw new Error('Unauthorized');
+//     }
+//     return res;
+//   } catch (err) {
+//     throw err;
+//   }
+// };
 
 const Home = () => {
   const { user, login: loginToAuthStore } = useAuthStore();
@@ -89,6 +89,8 @@ const Home = () => {
       }
       loginToAuthStore(userData, localStorage.getItem('token'));
 
+      console.log()
+
       // Then load other data
       await Promise.all([
         fetchStats(controller.signal),
@@ -111,7 +113,7 @@ const Home = () => {
   loadData();
 
   return () => controller.abort();
-}, [getUser]);
+}, []);
 
 // console.log(user)
 
@@ -180,25 +182,44 @@ const Home = () => {
   //   loadData();
   // }, [fetchBirthdays]);
 
- const fetchStats = async (signal) => {
-    try {
-      const response = await fetchWithAuth(`${API_URL}api/dashboard/stats`, { signal });
-      const data = await response.json();
-      if (data.success) {
-        const statData = [
-          { label: 'Active Members', value: data.data.activeMembers, icon: Users, color: 'bg-blue-500' },
-          { label: 'Prayer Requests', value: data.data.prayerRequests, icon: Heart, color: 'bg-red-500' },
-          { label: 'Upcoming Events', value: data.data.upcomingEvents, icon: Calendar, color: 'bg-green-500' },
-          { label: "This Week's Votes", value: data.data.weeklyVotes, icon: Trophy, color: 'bg-yellow-500' },
-        ];
-        setStats(statData);
-      } else {
-        console.error('Failed to load stats:', data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-    }
-  };
+//  const fetchStats = async (signal) => {
+//     try {
+//       const response = await fetchWithAuth(`${API_URL}api/dashboard/stats`, { signal });
+//       const data = await response.json();
+//       if (data.success) {
+//         const statData = [
+//           { label: 'Active Members', value: data.data.activeMembers, icon: Users, color: 'bg-blue-500' },
+//           { label: 'Prayer Requests', value: data.data.prayerRequests, icon: Heart, color: 'bg-red-500' },
+//           { label: 'Upcoming Events', value: data.data.upcomingEvents, icon: Calendar, color: 'bg-green-500' },
+//           { label: "This Week's Votes", value: data.data.weeklyVotes, icon: Trophy, color: 'bg-yellow-500' },
+//         ];
+//         setStats(statData);
+//       } else {
+//         console.error('Failed to load stats:', data.message);
+//       }
+//     } catch (error) {
+//       console.error('Error fetching stats:', error);
+//     }
+//   };
+
+  const fetchStats = async (signal) => {
+  const response = await fetch(`${API_URL}api/dashboard/stats`, {
+    credentials: 'include',
+    signal,
+  });
+  const data = await response.json();
+  if (data.success) {
+    const statData = [
+      { label: 'Active Members', value: data.data.activeMembers, icon: Users, color: 'bg-blue-500' },
+      { label: 'Prayer Requests', value: data.data.prayerRequests, icon: Heart, color: 'bg-red-500' },
+      { label: 'Upcoming Events', value: data.data.upcomingEvents, icon: Calendar, color: 'bg-green-500' },
+      { label: "This Week's Votes", value: data.data.weeklyVotes, icon: Trophy, color: 'bg-yellow-500' },
+    ];
+    setStats(statData);
+  } else {
+    console.error('Failed to load stats');
+  }
+};
 
 
 
