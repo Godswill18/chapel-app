@@ -80,10 +80,12 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
     });
 
     const data = await res.json().catch(() => ({})); // prevent JSON parse crash
+    console.log('Login response:', data); // Debug
 
     if (res.ok && data.success) {
       // ✅ Save token if backend sends it
       if (data.token) {
+        console.log('Storing token:', data.token); // Debug
         localStorage.setItem('token', data.token);
       }
 
