@@ -89,7 +89,6 @@ const Home = () => {
       }
       loginToAuthStore(userData, localStorage.getItem('token'));
 
-      console.log()
 
       // Then load other data
       await Promise.all([
@@ -556,7 +555,7 @@ const Home = () => {
                         ? 'bg-gradient-to-br from-pink-500 to-purple-600' 
                         : 'bg-gradient-to-br from-blue-500 to-purple-600'
                     }`}>
-                      {console.log(birthday.profileImg)}
+                      {/* {console.log(birthday.profileImg)} */}
                       {birthday.profileImg ? (
 
                         <img 
@@ -578,7 +577,7 @@ const Home = () => {
                     )}
 
                     {/* {console.log(`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`)} */}
-                    {console.log(`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`)}
+                    {/* {console.log(`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`)} */}
                     </div>
                     {birthday.isToday && (
                       <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1">
