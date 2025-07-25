@@ -561,7 +561,7 @@ const Home = () => {
 
                         <img 
                                   //  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
-                                   src={`${import.meta.env.VITE_BACKEND_IMAGE_URL?.replace(/\/+$/, '') || ''}/${birthday.profileImg?.replace(/\/+$/, '') || ''}`}
+                                   src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`}
  
                                    
                                    alt="Profile" 
