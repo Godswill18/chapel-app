@@ -559,8 +559,8 @@ const Home = () => {
                       {birthday.profileImg ? (
 
                         <img 
-                                   src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
-                                  //  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`}
+                                  //  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
+                                   src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`}
  
                                    
                                    alt="Profile" 
@@ -576,7 +576,8 @@ const Home = () => {
                 </div>
                     )}
 
-                    {console.log(`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`)}
+                    {/* {console.log(`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`)} */}
+                    {console.log(`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`)}
                     </div>
                     {birthday.isToday && (
                       <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1">
