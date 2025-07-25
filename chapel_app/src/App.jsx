@@ -29,9 +29,9 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useAuth();
   const token = localStorage.getItem('token');
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (!isAuthenticated || !token) {
     return <Navigate to="/login" replace />;

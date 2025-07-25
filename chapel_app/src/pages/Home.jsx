@@ -556,13 +556,24 @@ const Home = () => {
                         ? 'bg-gradient-to-br from-pink-500 to-purple-600' 
                         : 'bg-gradient-to-br from-blue-500 to-purple-600'
                     }`}>
-                       <img 
-                                  // src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
-                                  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`}
+                      {birthday.profileImg ? (
 
-                                    alt="Profile" 
-                                    className="w-full h-full object-cover"
-                                  />
+                        <img 
+                                   // src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
+                                   src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`}
+ 
+                                   
+                                   alt="Profile" 
+                                   className="w-full h-full object-cover"
+                                   />
+                      )
+                    :
+                    (
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                  {birthday?.firstName?.charAt(0) || 'U'}
+                  {birthday?.lastName?.charAt(0) || 'U'}
+                </div>
+                    )}
                     </div>
                     {birthday.isToday && (
                       <div className="absolute -top-1 -right-1 bg-yellow-400 rounded-full p-1">
