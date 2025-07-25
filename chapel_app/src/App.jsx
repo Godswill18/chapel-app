@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { AuthProvider, useAuth } from './contexts/Auth.jsx';
+import { AuthProvider, useAuthentication } from './contexts/Auth.jsx';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import CalendarPage from './pages/CalendarPage';
@@ -21,12 +21,12 @@ import Signup from './pages/Signup';
 // };
 
 const PublicRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuthentication();
   return !isAuthenticated ? <>{children}</> : <Navigate to="/" replace />;
 };
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, loading } = useAuthentication();
   const token = localStorage.getItem('token');
 
   // if (loading) {

@@ -20,14 +20,14 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
-import { useAuth } from '../contexts/Auth.jsx';
+import { useAuthentication } from '../contexts/Auth.jsx';
 import { useUserContext } from '../contexts/AuthContext.js';
 
 const SideNavigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const { theme, toggleTheme } = useTheme();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAuthentication();
   const location = useLocation();
   const navigate = useNavigate();
   const { logoutUser } = useUserContext();
@@ -41,6 +41,7 @@ const handleLogout = async () => {
   }
 };
 
+console.log(user)
 
   const navItems = [
     { path: '/', label: 'Home', icon: Home },
