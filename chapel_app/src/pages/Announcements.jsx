@@ -141,9 +141,9 @@ const Announcements = () => {
                     {announcement.image && (
                       <div className="mb-4">
                         <img
-                          src={announcement.image.startsWith('http') ? 
-                               announcement.image : 
-                               `${import.meta.env.VITE_BACKEND_API_URL || ''}/${announcement.image.replace(/^\/+/, '')}`}
+                          src={
+                              //  `${import.meta.env.VITE_BACKEND_API_URL || ''}/${announcement.image.replace(/^\/+/, '')}`}
+                              `${import.meta.env.VITE_BACKEND_IMAGE_URL}${announcement.image}`}
                           alt={announcement.title}
                           className="w-full h-48 object-cover rounded-lg"
                           onError={(e) => {
@@ -232,13 +232,13 @@ const Announcements = () => {
                       <Eye className="h-4 w-4 text-gray-400" />
                     </div>
                   </div>
+                  {/* {console.log(`${import.meta.env.VITE_BACKEND_IMAGE_URL}${announcement.image}`)} */}
                   {announcement.image && (
                     <div className="mb-4">
                       <img
-                        src={announcement.image.startsWith('http') ? 
-                             announcement.image : 
+                        src={
                               // `${import.meta.env.VITE_BACKEND_API_URL || ''}/${announcement.image.replace(/^\/+/, '')}`}
-                              `${import.meta.env.VITE_BACKEND_IMAGE_URL}${announcement.profileImg}`}
+                              `${import.meta.env.VITE_BACKEND_IMAGE_URL}${announcement.image}`}
 
                         alt={announcement.title}
                         className="w-full h-48 object-cover rounded-lg"
@@ -263,6 +263,7 @@ const Announcements = () => {
                       <div className="flex items-center space-x-1">
                         <Calendar className="h-4 w-4" />
                         <span>{formatDate(announcement.date)}</span>
+                        
                       </div>
                       {announcement.image && (
                         <div className="flex items-center space-x-1">
@@ -346,14 +347,16 @@ const Announcements = () => {
                   </div>
                 </div>
               </div>
+              {/* {console.log(selectedAnnouncement.image)}
+              {console.log(`hffhfhhf jj ${import.meta.env.VITE_BACKEND_IMAGE_URL}${selectedAnnouncement.image}`)} */}
 
               {selectedAnnouncement.image && (
                 <div className="mb-6">
                   <img
-                    src={selectedAnnouncement.image.startsWith('http') ? 
-                         selectedAnnouncement.image : 
+                    src={
                         //  `${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${selectedAnnouncement.image.replace(/^\/+/, '')}`}
-                        `${import.meta.env.VITE_BACKEND_IMAGE_URL}${selectedAnnouncement.profileImg}`}
+                        (`${import.meta.env.VITE_BACKEND_IMAGE_URL}${selectedAnnouncement.image}`) 
+                    }
 
                     alt={selectedAnnouncement.title}
                     className="w-full h-64 object-cover rounded-lg"

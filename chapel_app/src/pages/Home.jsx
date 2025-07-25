@@ -556,11 +556,12 @@ const Home = () => {
                         ? 'bg-gradient-to-br from-pink-500 to-purple-600' 
                         : 'bg-gradient-to-br from-blue-500 to-purple-600'
                     }`}>
+                      {console.log(birthday.profileImg)}
                       {birthday.profileImg ? (
 
                         <img 
                                   //  src={`${import.meta.env.VITE_BACKEND_IMAGE_URL || ''}/${birthday.profileImg.replace(/^\/+/, '')}`}
-                                   src={`${import.meta.env.VITE_BACKEND_IMAGE_URL}${birthday.profileImg}`}
+                                   src={`${import.meta.env.VITE_BACKEND_IMAGE_URL?.replace(/\/+$/, '') || ''}/${birthday.profileImg?.replace(/\/+$/, '') || ''}`}
  
                                    
                                    alt="Profile" 

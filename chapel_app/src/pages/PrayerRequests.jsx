@@ -214,70 +214,75 @@ export default function PrayerRequests() {
       )}
 
       {/* ---------- LIST ---------- */}
-      <div className="space-y-6">
-        {loading ? (
-          [...Array(3)].map((_, i) => <RequestSkeleton key={i} />)
-        ) : error ? (
-          <Card className="p-12 text-center text-red-600">{error}</Card>
-        ) : prayerRequests?.length === 0 ? (
-          <Card className="p-12 text-center">
-            <Heart className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-              No prayer requests yet
-            </h3>
-            <p className="text-gray-500 dark:text-gray-400">
-              Be the first to share a prayer request with our community.
+     <div className="space-y-6">
+  {loading ? (
+    [...Array(3)].map((_, i) => <RequestSkeleton key={i} />)
+  ) : error ? (
+    <Card className="p-12 text-center text-red-600">{error}</Card>
+  ) : prayerRequests?.length === 0 ? (
+    <Card className="p-12 text-center">
+      <Heart className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+      <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+        No prayer requests yet
+      </h3>
+      <p className="text-gray-500 dark:text-gray-400">
+        Be the first to share a prayer request with our community.
+      </p>
+    </Card>
+  ) : (
+    prayerRequests
+      .filter(req => req.isDisplay === true) // ✅ Only display those marked as true
+      .map(req => (
+        <Card key={req._id} hover>
+          <div className="p-6">
+            <div className="flex items-start justify-between mb-4">
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                {req.title}
+              </h3>
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryInfo(req.category).color}`}
+              >
+                {getCategoryInfo(req.category).label}
+              </span>
+            </div>
+            <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+              {req.prayerRequest}
             </p>
-          </Card>
-        ) : (
-          prayerRequests?.map((req) => (
-            <Card key={req._id} hover>
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    {req.title}
-                  </h3>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getCategoryInfo(req.category).color}`}>
-                    {getCategoryInfo(req.category).label}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
+                <div className="flex items-center space-x-1">
+                  <User className="h-4 w-4" />
+                  <span>
+                    {req.submittedBy ? 'Anonymous' : req.submittedBy || 'Unknown'}
                   </span>
                 </div>
-                <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
-                  {req.prayerRequest}
-                </p>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-6 text-sm text-gray-500 dark:text-gray-400">
-                    <div className="flex items-center space-x-1">
-                      <User className="h-4 w-4" />
-                      <span>
-                        {req.anonymous ? 'Anonymous' : req.author || 'Unknown'}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-1">
-                      <Clock className="h-4 w-4" />
-                      <span>{formatDate(req.createdAt)}</span>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => handlePray(req._id)}
-                    className={`flex items-center space-x-2 text-sm font-medium transition-colors duration-200 ${
-                      req.isPraying?.includes(user?._id) 
-                        ? 'text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200'
-                        : 'text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200'
-                    }`}
-                  >
-                    <Heart
-                      className="h-4 w-4" 
-                      fill={req.isPraying?.includes(user?._id) ? 'currentColor' : 'none'} 
-                    />
-                    <span>{req.isPraying?.length || 0}</span>
-                    <span>Praying</span>
-                  </button>
+                <div className="flex items-center space-x-1">
+                  <Clock className="h-4 w-4" />
+                  <span>{formatDate(req.createdAt)}</span>
                 </div>
               </div>
-            </Card>
-          ))
-        )}
-      </div>
+              <button
+                onClick={() => handlePray(req._id)}
+                className={`flex items-center space-x-2 text-sm font-medium transition-colors duration-200 ${
+                  req.isPraying?.includes(user?._id)
+                    ? 'text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200'
+                    : 'text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200'
+                }`}
+              >
+                <Heart
+                  className="h-4 w-4"
+                  fill={req.isPraying?.includes(user?._id) ? 'currentColor' : 'none'}
+                />
+                <span>{req.isPraying?.length || 0}</span>
+                <span>Praying</span>
+              </button>
+            </div>
+          </div>
+        </Card>
+      ))
+  )}
+</div>
+
     </div>
   );
 }
