@@ -162,7 +162,7 @@ getUser: async () => {
 
 logoutUser: async () => {
   try {
-    const res = await fetchWithAuth(`${API_URL}api/auth/logout`, { method: 'POST' });
+    const res = await fetch(`${API_URL}api/auth/logout`, { method: 'POST' });
     sessionStorage.removeItem('token'); // Clear sessionStorage
     localStorage.removeItem('token'); // Clear localStorage
     set({ user: null, token: null, isAuthenticated: false });
