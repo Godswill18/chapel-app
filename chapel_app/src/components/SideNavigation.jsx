@@ -41,7 +41,6 @@ const handleLogout = async () => {
   }
 };
 
-console.log(user)
 
   const navItems = [
     { path: '/', label: 'Home', icon: Home },

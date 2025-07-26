@@ -69,50 +69,58 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
     // }
 
     loginUser: async (payload) => {
-  try {
-    const res = await fetch(`${API_URL}api/auth/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(payload),
-      credentials: 'include' // ✅ allows cookies
-    });
+    try {
+      const res = await fetch(`${API_URL}api/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+        credentials: 'include', // ✅ allows cookies
+      });
 
-    const data = await res.json().catch(() => ({})); // prevent JSON parse crash
-    // console.log('Login response:', data); // Debug
+      const data = await res.json().catch(() => ({})); // prevent JSON parse crash
+      // console.log('Login response:', data); // Debug
 
-    if (res.ok && data.success) {
-      // ✅ Save token if backend sends it
-      if (data.token) {
-        // console.log('Storing token:', data.token); // Debug
-        localStorage.setItem('token', data.token);
+      if (res.ok && data.success) {
+        // ✅ Save token if backend sends it
+        if (data.token) {
+          console.log('Storing token:', data.token); // Debug
+          localStorage.setItem('token', data.token); // Store in localStorage (persistent across sessions)
+          sessionStorage.setItem('token', data.token); // Store in sessionStorage (cleared when tab/browser closes)
+        } else {
+          console.warn('No token in login response');
+        }
+
+        return { success: true, message: data.message, data };
       }
 
-      return { success: true, message: data.message, data };
+      return { success: false, message: data.message || 'Invalid email or password.' };
+    } catch (err) {
+      console.error('Login Error', err);
+      return { success: false, message: 'Network error.' };
     }
-
-    return { success: false, message: data.message || 'Login failed.' };
-
-  } catch (err) {
-    console.error('Login Error', err);
-    return { success: false, message: 'Network error.' };
-  }
-},
+  },
 
  fetchWithAuth: async (url, options = {}) => {
-  const token = localStorage.getItem('token');
+  // Prioritize sessionStorage, fall back to localStorage
+  const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+  if (!token) {
+    throw new Error('No token found');
+  }
   const headers = {
     ...options.headers,
     'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json',
   };
 
   try {
     const res = await fetch(url, { ...options, headers });
     if (res.status === 401) {
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token'); // Clear sessionStorage
+      localStorage.removeItem('token'); // Clear localStorage
       useAuthStore.getState().logout();
-      window.location.href = '/login'; // Force redirect
+      window.location.href = '/login';
       throw new Error('Unauthorized');
     }
     return res;
@@ -142,6 +150,7 @@ getUser: async () => {
     // Store token in localStorage as fallback
     if (data.token) {
       localStorage.setItem('token', data.token);
+      sessionStorage.setItem('token', data.token); // session storage is set because of IOS browsers 
     }
     
     return data;
@@ -152,35 +161,26 @@ getUser: async () => {
   }
 },
 
- logoutUser: async () => {
+logoutUser: async () => {
   try {
-    const res = await fetch(`${API_URL}api/auth/logout`, {
-      method: 'POST',
-      credentials: 'include'
-    });
-
-    // Clear local data regardless of backend response
-    localStorage.removeItem('token');
+    const res = await fetchWithAuth(`${API_URL}api/auth/logout`, { method: 'POST' });
+    sessionStorage.removeItem('token'); // Clear sessionStorage
+    localStorage.removeItem('token'); // Clear localStorage
     set({ user: null, token: null, isAuthenticated: false });
-
-    // Also clear Zustand persisted auth store
     useAuthStore.getState().logout();
-
     return res.ok
       ? { success: true }
       : { success: false, message: 'Logout failed on server' };
-
   } catch (err) {
     console.error('Logout Error', err);
-
-    // Still clear state even if network fails
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token'); // Clear sessionStorage
+    localStorage.removeItem('token'); // Clear localStorage
     set({ user: null, token: null, isAuthenticated: false });
     useAuthStore.getState().logout();
-
     return { success: false, message: 'Network error during logout.' };
   }
 }
+
 
     
 
