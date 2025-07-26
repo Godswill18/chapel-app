@@ -130,11 +130,11 @@ getUser: async () => {
       credentials: 'include' // Always include credentials
     });
 
-    // if (res.status === 401) {
-    //   // Clear any invalid tokens
-    //   // localStorage.removeItem('token');
-    //   throw new Error('Unauthorized');
-    // }
+    if (res.status === 401) {
+      // Clear any invalid tokens
+      // localStorage.removeItem('token');
+      throw new Error('Unauthorized');
+    }
 
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to fetch user');

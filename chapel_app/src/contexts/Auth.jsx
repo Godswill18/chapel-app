@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { useUserContext } from './AuthContext';
 import { useAuthStore } from './AuthContext';
 
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const restoreSession = async () => {
       if (initialized) return;
       try {
