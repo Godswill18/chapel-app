@@ -75,7 +75,7 @@ const Home = () => {
   useEffect(() => {
   const controller = new AbortController();
   // console.log('User:', user);
-  console.log('Token for sesson:', sessionStorage.getItem('token'));
+  // console.log('Token for sesson:', sessionStorage.getItem('token'));
 
   const loadData = async () => {
     try {
@@ -87,8 +87,8 @@ const Home = () => {
         navigate('/login');
         return;
       }
-      loginToAuthStore(userData, localStorage.getItem('token'));
       loginToAuthStore(userData, sessionStorage.getItem('token'));
+      loginToAuthStore(userData, localStorage.getItem('token'));
 
 
       // Then load other data

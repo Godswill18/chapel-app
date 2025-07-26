@@ -85,9 +85,8 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
       if (res.ok && data.success) {
         // ✅ Save token if backend sends it
         if (data.token) {
-          console.log('Storing token:', data.token); // Debug
-          localStorage.setItem('token', data.token); // Store in localStorage (persistent across sessions)
           sessionStorage.setItem('token', data.token); // Store in sessionStorage (cleared when tab/browser closes)
+          localStorage.setItem('token', data.token); // Store in localStorage (persistent across sessions)
         } else {
           console.warn('No token in login response');
         }
@@ -149,8 +148,8 @@ getUser: async () => {
     
     // Store token in localStorage as fallback
     if (data.token) {
-      localStorage.setItem('token', data.token);
       sessionStorage.setItem('token', data.token); // session storage is set because of IOS browsers 
+      localStorage.setItem('token', data.token);
     }
     
     return data;
