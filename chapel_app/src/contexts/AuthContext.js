@@ -86,7 +86,7 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
         // ✅ Save token if backend sends it
         if (data.token) {
           sessionStorage.setItem('token', data.token); // Store in sessionStorage (cleared when tab/browser closes)
-          localStorage.setItem('token', data.token); // Store in localStorage (persistent across sessions)
+          // localStorage.setItem('token', data.token); // Store in localStorage (persistent across sessions)
         } else {
           console.warn('No token in login response');
         }
@@ -103,7 +103,8 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
 
  fetchWithAuth: async (url, options = {}) => {
   // Prioritize sessionStorage, fall back to localStorage
-  const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+  const token = sessionStorage.getItem('token')
+  //  || localStorage.getItem('token');
   if (!token) {
     throw new Error('No token found');
   }
@@ -117,7 +118,7 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
     const res = await fetch(url, { ...options, headers });
     if (res.status === 401) {
       sessionStorage.removeItem('token'); // Clear sessionStorage
-      localStorage.removeItem('token'); // Clear localStorage
+      // localStorage.removeItem('token'); // Clear localStorage
       useAuthStore.getState().logout();
       window.location.href = '/login';
       throw new Error('Unauthorized');
@@ -163,8 +164,8 @@ getUser: async () => {
 logoutUser: async () => {
   try {
     const res = await fetch(`${API_URL}api/auth/logout`, { method: 'POST' });
+    // localStorage.removeItem('token'); // Clear localStorage
     sessionStorage.removeItem('token'); // Clear sessionStorage
-    localStorage.removeItem('token'); // Clear localStorage
     set({ user: null, token: null, isAuthenticated: false });
     useAuthStore.getState().logout();
     return res.ok
@@ -172,8 +173,8 @@ logoutUser: async () => {
       : { success: false, message: 'Logout failed on server' };
   } catch (err) {
     console.error('Logout Error', err);
+    // localStorage.removeItem('token'); // Clear localStorage
     sessionStorage.removeItem('token'); // Clear sessionStorage
-    localStorage.removeItem('token'); // Clear localStorage
     set({ user: null, token: null, isAuthenticated: false });
     useAuthStore.getState().logout();
     return { success: false, message: 'Network error during logout.' };
@@ -203,7 +204,7 @@ export const useAuthStore = create(
     }),
     {
       name: 'auth-storage', // Stores in localStorage
-      getStorage: () => localStorage,
+      getStorage: () => sessionStorage,
     }
   )
 );

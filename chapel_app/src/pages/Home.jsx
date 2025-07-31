@@ -72,7 +72,48 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+  const controller = new AbortController();
+  // console.log('User:', user);
+  // console.log('Token for sesson:', sessionStorage.getItem('token'));
 
+  const loadData = async () => {
+    try {
+     if (!loading) setLoading(true);
+      
+     // Verify authentication
+      const userData = await getUser();
+      if (!userData?._id) {
+        navigate('/login');
+        return;
+      }
+      loginToAuthStore(userData, sessionStorage.getItem('token'));
+      // loginToAuthStore(userData, localStorage.getItem('token'));
+
+
+      // Then load other data
+      await Promise.all([
+        fetchStats(controller.signal),
+        fetchBirthdays(),
+        fetchEvents()
+      ]);
+
+    } catch (error) {
+      if (error.name !== 'AbortError') {
+        console.error('Error loading home data:', error);
+        if (error.message.includes('401')) {
+          navigate('/login');
+        }
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  loadData();
+
+  return () => controller.abort();
+}, [getUser]);
 
 // console.log(user)
 
@@ -263,49 +304,6 @@ const Home = () => {
 
   return diffDays;
 };
-
-  useEffect(() => {
-  const controller = new AbortController();
-  // console.log('User:', user);
-  // console.log('Token for sesson:', sessionStorage.getItem('token'));
-
-  const loadData = async () => {
-    try {
-     if (!loading) setLoading(true);
-      
-     // Verify authentication
-      const userData = await getUser();
-      if (!userData?._id) {
-        navigate('/login');
-        return;
-      }
-      loginToAuthStore(userData, sessionStorage.getItem('token'));
-      loginToAuthStore(userData, localStorage.getItem('token'));
-
-
-      // Then load other data
-      await Promise.all([
-        fetchStats(controller.signal),
-        fetchBirthdays(),
-        fetchEvents()
-      ]);
-
-    } catch (error) {
-      if (error.name !== 'AbortError') {
-        console.error('Error loading home data:', error);
-        if (error.message.includes('401')) {
-          navigate('/login');
-        }
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  loadData();
-
-  return () => controller.abort();
-}, []);
 
 
   if (loading){

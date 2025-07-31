@@ -37,6 +37,7 @@ const handleLogout = async () => {
   if (response.success) {
     navigate('/login');
   } else {
+    logoutUser();
     console.error('Logout failed:', response.message);
   }
 };
