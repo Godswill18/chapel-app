@@ -24,12 +24,11 @@ export const AuthProvider = ({ children }) => {
       try {
         setLoading(true);
         // Prioritize sessionStorage, fall back to localStorage
-        const token = sessionStorage.getItem('token') 
-        // || localStorage.getItem('token');
+        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
         if (!token) {
           logout();
           sessionStorage.removeItem('token');
-          // localStorage.removeItem('token');
+          localStorage.removeItem('token');
           return;
         }
         const userData = await getUser();
@@ -38,13 +37,13 @@ export const AuthProvider = ({ children }) => {
         } else {
           logout();
           sessionStorage.removeItem('token');
-          // localStorage.removeItem('token');
+          localStorage.removeItem('token');
         }
       } catch (err) {
         console.error('Session restoration failed:', err);
         logout();
         sessionStorage.removeItem('token');
-        // localStorage.removeItem('token');
+        localStorage.removeItem('token');
       } finally {
         setLoading(false);
         setInitialized(true);

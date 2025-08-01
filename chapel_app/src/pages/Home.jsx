@@ -88,7 +88,7 @@ const Home = () => {
         return;
       }
       loginToAuthStore(userData, sessionStorage.getItem('token'));
-      // loginToAuthStore(userData, localStorage.getItem('token'));
+      loginToAuthStore(userData, localStorage.getItem('token'));
 
 
       // Then load other data
@@ -113,7 +113,7 @@ const Home = () => {
   loadData();
 
   return () => controller.abort();
-}, [getUser]);
+}, []);
 
 // console.log(user)
 
