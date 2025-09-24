@@ -24,10 +24,10 @@ export const AuthProvider = ({ children }) => {
       try {
         setLoading(true);
         // Prioritize sessionStorage, fall back to localStorage
-        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+        const token = localStorage.getItem('token') // || sessionStorage.getItem('token') ;
         if (!token) {
           logout();
-          sessionStorage.removeItem('token');
+          // sessionStorage.removeItem('token');
           localStorage.removeItem('token');
           return;
         }
@@ -36,13 +36,13 @@ export const AuthProvider = ({ children }) => {
           login(userData, token);
         } else {
           logout();
-          sessionStorage.removeItem('token');
+          // sessionStorage.removeItem('token');
           localStorage.removeItem('token');
         }
       } catch (err) {
         console.error('Session restoration failed:', err);
         logout();
-        sessionStorage.removeItem('token');
+        // sessionStorage.removeItem('token');
         localStorage.removeItem('token');
       } finally {
         setLoading(false);
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     restoreSession();
-  }, [getUser, login, logout, initialized]);
+  }, [ login, logout, initialized]);
 
   return (
     <AuthContext.Provider

@@ -13,7 +13,7 @@ export const useUserStore = create((set) => ({
 fetchBirthdays: async () => {
   set({ loading: true, error: null });
   try {
-    const res = await fetch(`${API_URL}api/users/getBirthdays`, {
+    const res = await fetch(`${API_URL}api/users/getBirthdays`, {  
           method: 'GET',
         credentials: 'include',
     });

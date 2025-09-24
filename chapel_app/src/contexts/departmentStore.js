@@ -87,6 +87,27 @@ const useDepartmentStore = create((set, get) => ({
       set({ error: error.message, loading: false });
     }
   },
+  fetchDepartmentsList: async () => {
+    set({ loading: true, error: null });
+    try {
+      // const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}api/departments/getAllDepartmentsName`,
+        {
+          method: 'GET',
+          // headers: {
+          //   Authorization: `Bearer ${token}`,
+          // },
+          // withCredentials: true,
+          // credentials: 'include'
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.message || 'Failed to fetch department list');
+      set({ departments: Array.isArray(data) ? data : [], loading: false });
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
 
   // Fetch user's departments
   fetchUserDepartments: async (userId) => {

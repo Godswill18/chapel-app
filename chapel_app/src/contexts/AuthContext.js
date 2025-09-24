@@ -85,7 +85,7 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
       if (res.ok && data.success) {
         // ✅ Save token if backend sends it
         if (data.token) {
-          sessionStorage.setItem('token', data.token); // Store in sessionStorage (cleared when tab/browser closes)
+          // sessionStorage.setItem('token', data.token); // Store in sessionStorage (cleared when tab/browser closes)
           localStorage.setItem('token', data.token); // Store in localStorage (persistent across sessions)
         } else {
           console.warn('No token in login response');
@@ -116,7 +116,7 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
   try {
     const res = await fetch(url, { ...options, headers });
     if (res.status === 401) {
-      sessionStorage.removeItem('token'); // Clear sessionStorage
+      // sessionStorage.removeItem('token'); // Clear sessionStorage
       localStorage.removeItem('token'); // Clear localStorage
       useAuthStore.getState().logout();
       window.location.href = '/login';
@@ -148,7 +148,7 @@ getUser: async () => {
     
     // Store token in localStorage as fallback
     if (data.token) {
-      sessionStorage.setItem('token', data.token); // session storage is set because of IOS browsers 
+      // sessionStorage.setItem('token', data.token); // session storage is set because of IOS browsers 
       localStorage.setItem('token', data.token);
     }
     
@@ -163,7 +163,7 @@ getUser: async () => {
 logoutUser: async () => {
   try {
     const res = await fetch(`${API_URL}api/auth/logout`, { method: 'POST' });
-    sessionStorage.removeItem('token'); // Clear sessionStorage
+    // sessionStorage.removeItem('token'); // Clear sessionStorage
     localStorage.removeItem('token'); // Clear localStorage
     set({ user: null, token: null, isAuthenticated: false });
     useAuthStore.getState().logout();
@@ -172,7 +172,7 @@ logoutUser: async () => {
       : { success: false, message: 'Logout failed on server' };
   } catch (err) {
     console.error('Logout Error', err);
-    sessionStorage.removeItem('token'); // Clear sessionStorage
+    // sessionStorage.removeItem('token'); // Clear sessionStorage
     localStorage.removeItem('token'); // Clear localStorage
     set({ user: null, token: null, isAuthenticated: false });
     useAuthStore.getState().logout();

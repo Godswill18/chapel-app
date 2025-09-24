@@ -87,7 +87,7 @@ const Home = () => {
         navigate('/login');
         return;
       }
-      loginToAuthStore(userData, sessionStorage.getItem('token'));
+      // loginToAuthStore(userData, sessionStorage.getItem('token'));
       loginToAuthStore(userData, localStorage.getItem('token'));
 
 
