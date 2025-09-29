@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     restoreSession();
-  }, [ login, logout, initialized]);
+  }, [getUser, login, logout, initialized]);
 
   return (
     <AuthContext.Provider
