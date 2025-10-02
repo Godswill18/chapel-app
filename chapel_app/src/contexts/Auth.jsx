@@ -16,21 +16,24 @@ export const AuthProvider = ({ children }) => {
   const { getUser } = useUserContext();
   const { user, login, logout, isAuthenticated } = useAuthStore();
   const [loading, setLoading] = useState(true);
-  const [initialized, setInitialized] = useState(false);
+  // const [initialized, setInitialized] = useState(false);
 
   useLayoutEffect(() => {
     const restoreSession = async () => {
-      if (initialized) return;
+      // if (initialized) return;
+      
       try {
         setLoading(true);
         // Prioritize sessionStorage, fall back to localStorage
         const token = localStorage.getItem('token') // || sessionStorage.getItem('token') ;
+        // console.log(token)
         if (!token) {
           logout();
           // sessionStorage.removeItem('token');
           localStorage.removeItem('token');
           return;
         }
+
         const userData = await getUser();
         if (userData && userData._id) {
           login(userData, token);
@@ -39,6 +42,7 @@ export const AuthProvider = ({ children }) => {
           // sessionStorage.removeItem('token');
           localStorage.removeItem('token');
         }
+
       } catch (err) {
         console.error('Session restoration failed:', err);
         logout();
@@ -46,12 +50,12 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token');
       } finally {
         setLoading(false);
-        setInitialized(true);
+        // setInitialized(true);
       }
     };
 
     restoreSession();
-  }, [getUser, login, logout, initialized]);
+  }, [getUser, login, logout]);
 
   return (
     <AuthContext.Provider
