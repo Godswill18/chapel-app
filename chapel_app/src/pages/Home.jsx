@@ -3,7 +3,7 @@ import { Users, Heart, Calendar, Trophy, Bell, TrendingUp, Gift, Cake, Send, X }
 import Card from '../components/Card';
 // import CalendarCard from '../components/Calendar';
 import Carousel from '../components/Carousel';
-import { useAuthStore, useUserContext } from '../contexts/AuthContext';
+import { useAuthStore } from '../contexts/AuthContext';
 import HomeSkeleton from '../skeleton/HomeSkeleton';
 import { Link, useNavigate } from 'react-router-dom';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
@@ -38,8 +38,8 @@ const API_URL = import.meta.env.VITE_BACKEND_API_URL || 'https://wsu-chapel.onre
 // };
 
 const Home = () => {
-  const { user, login: loginToAuthStore } = useAuthStore();
-  const { getUser } = useUserContext();
+  const { getUser, user, login: loginToAuthStore } = useAuthStore();
+  // const { getUser } = ();
   const [stats, setStats] = useState([]);
   const [loading, setLoading] = useState(true);
    const { events: calendarEvents, fetchEvents } = useCalendarStore();

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useLayoutEffect, useState } from 'react';
-import { useUserContext } from './AuthContext';
+// import { useUserContext } from './AuthContext';
 import { useAuthStore } from './AuthContext';
 
 const AuthContext = createContext();
@@ -13,8 +13,8 @@ export const useAuthentication = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const { getUser } = useUserContext();
-  const { user, login, logout, isAuthenticated } = useAuthStore();
+  // const { getUser } = useUserContext();
+  const { getUser, user, login, logout, isAuthenticated } = useAuthStore();
   const [loading, setLoading] = useState(true);
   // const [initialized, setInitialized] = useState(false);
 

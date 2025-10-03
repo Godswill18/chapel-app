@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Church, User, Mail, Lock, Eye, EyeOff, UserPlus, Phone, Calendar,GraduationCap, ListOrdered, VenusAndMars, Component } from 'lucide-react';
 // import { useAuth } from '../contexts/AuthContext';
-import { useUserContext } from '../contexts/AuthContext.js';
+import { useAuthStore } from '../contexts/AuthContext.js';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 import useDepartmentStore from '../contexts/departmentStore.js';
 
@@ -26,7 +26,7 @@ const Signup = () => {
   const [error, setError] = useState('');
 
   // const { signup } = useAuth();
-  const { registerUser } = useUserContext();
+  const { registerUser } = useAuthStore();
    const { departments, fetchDepartmentsList, loading } = useDepartmentStore();
 
   //  console.log(departments)

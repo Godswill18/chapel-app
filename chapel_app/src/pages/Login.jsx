@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Church, Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react';
 // import { useAuth } from '../contexts/AuthContext.jsx';
-import { useAuthStore, useUserContext } from '../contexts/AuthContext.js';
+import { useAuthStore } from '../contexts/AuthContext.js';
 import { Bounce, toast, ToastContainer } from 'react-toastify';
 
 const Login = () => {
-  const { login: loginToAuthStore } = useAuthStore();
-  const { loginUser } = useUserContext();
+  const { loginUser, login: loginToAuthStore } = useAuthStore();
+  // const { loginUser } = ();
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

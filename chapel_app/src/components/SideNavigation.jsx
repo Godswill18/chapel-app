@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuthentication } from '../contexts/Auth.jsx';
-import { useUserContext } from '../contexts/AuthContext.js';
+import { useAuthStore } from '../contexts/AuthContext.js';
 
 const SideNavigation = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -30,7 +30,7 @@ const SideNavigation = () => {
   const { user, isAuthenticated } = useAuthentication();
   const location = useLocation();
   const navigate = useNavigate();
-  const { logoutUser } = useUserContext();
+  const { logoutUser } = useAuthStore();
 
 const handleLogout = async () => {
   const response = await logoutUser();
